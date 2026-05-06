@@ -56,4 +56,168 @@
 
                     <form id="form-login">
                         <div class="mb-3">
-                            <label for="usuario" class="form-label font-monospace">Usuário</
+                            <label for="usuario" class="form-label font-monospace">Usuário</label>
+                            <input type="text" class="form-control" id="usuario" value="operador" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="senha" class="form-label font-monospace">Senha</label>
+                            <input type="password" class="form-control" id="senha" value="123mudar" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full py-2 fw-semibold shadow-sm">
+                            Entrar
+                        </button>
+                    </form>
+                </section>
+
+                <section id="tela-ponto" class="secao-tela card card-mockup p-4 bg-white">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+                        <div>
+                            <h3 class="h5 fw-bold mb-0 text-success">● Conectado</h3>
+                            <small class="text-muted">Operador: <span class="fw-semibold">Caio Fischer</span></small>
+                        </div>
+                        <button onclick="ServicoAutenticacao.logout()" class="btn btn-sm btn-outline-danger">Sair</button>
+                    </div>
+
+                    <div class="bg-light border rounded p-4 text-center mb-4">
+                        <p class="text-uppercase text-muted tracking-wider small fw-bold mb-1">Horário do Servidor</p>
+                        <div id="relogio" class="display-6 font-monospace fw-bold text-dark">00:00:00</div>
+                        <p id="data-atual" class="text-muted small mt-1 mb-0"></p>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button id="btn-entrada" onclick="registrarPonto('ENTRADA')" class="btn btn-success py-3 fw-bold">
+                            Iniciar Expediente
+                        </button>
+                        <button id="btn-saida" onclick="registrarPonto('SAÍDA')" class="btn btn-secondary py-3 fw-bold" disabled>
+                            Finalizar Expediente
+                        </button>
+                    </div>
+
+                    <div class="mt-4">
+                        <h6 class="fw-bold text-secondary small text-uppercase">Log da Sessão</h6>
+                        <div id="console-ponto" class="bg-dark text-light p-3 rounded font-monospace small" style="min-h: 50px;">
+                            <span class="text-muted italic">Aguardando interações...</span>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-top py-3 text-center text-muted small">
+        <div class="container">
+            Controle de Ponto • Validado via Cookies Corporativos
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const NOME_COOKIE = "SRP-Mockup-Autentication";
+
+        // --- SERVIÇO AUXILIAR DE COOKIES (Abstração nativa) ---
+        const CookieHelper = {
+            set: function(nome, valor, dias) {
+                let expiracao = "";
+                if (dias) {
+                    const data = new Date();
+                    data.setTime(data.getTime() + (dias * 24 * 60 * 60 * 1000));
+                    expiracao = "; expires=" + data.toUTCString();
+                }
+                document.cookie = nome + "=" + (valor || "") + expiracao + "; path=/; SameSite=Strict";
+            },
+            get: function(nome) {
+                const nomeEQ = nome + "=";
+                const ca = document.cookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nomeEQ) == 0) return c.substring(nomeEQ.length, c.length);
+                }
+                return null;
+            },
+            erase: function(nome) {
+                document.cookie = nome + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            }
+        };
+
+        // --- SERVIÇO DE AUTENTICAÇÃO MOCKADO ---
+        const ServicoAutenticacao = {
+            validarSessao: function() {
+                const cookieSessao = CookieHelper.get(NOME_COOKIE);
+                
+                // Remove a classe ativa de todas e limpa mensagens
+                document.getElementById('tela-login').classList.remove('ativa');
+                document.getElementById('tela-ponto').classList.remove('ativa');
+                
+                if (cookieSessao === "token_autenticado_operador") {
+                    document.getElementById('tela-ponto').classList.add('ativa');
+                } else {
+                    document.getElementById('tela-login').classList.add('ativa');
+                }
+            },
+            login: function(usuario, senha) {
+                // Validação mockada exigida por você
+                if (usuario === "operador" && senha === "123mudar") {
+                    // Cria o cookie de autenticação válido por 1 dia
+                    CookieHelper.set(NOME_COOKIE, "token_autenticado_operador", 1);
+                    document.getElementById('alerta-erro').classList.add('d-none');
+                    this.validarSessao();
+                    return true;
+                } else {
+                    document.getElementById('alerta-erro').classList.remove('d-none');
+                    return false;
+                }
+            },
+            logout: function() {
+                CookieHelper.erase(NOME_COOKIE);
+                this.validarSessao();
+            }
+        };
+
+        // --- REGRAS DE INTERAÇÃO DA TELA DE PONTO ---
+        function registrarPonto(tipo) {
+            const hora = new Date().toLocaleTimeString('pt-BR');
+            const log = document.getElementById('console-ponto');
+            
+            if (tipo === 'ENTRADA') {
+                document.getElementById('btn-entrada').disabled = true;
+                document.getElementById('btn-entrada').className = "btn btn-secondary py-3 fw-bold";
+                document.getElementById('btn-saida').disabled = false;
+                document.getElementById('btn-saida').className = "btn btn-danger py-3 fw-bold";
+                
+                log.innerHTML = `<p class="text-success mb-0">✓ ENTRADA REGISTRADA ÀS ${hora}</p>`;
+            } else {
+                document.getElementById('btn-saida').disabled = true;
+                document.getElementById('btn-saida').className = "btn btn-secondary py-3 fw-bold";
+                
+                log.innerHTML += `<p class="text-warning mb-0 mt-1">✓ SAÍDA REGISTRADA ÀS ${hora}</p>`;
+            }
+        }
+
+        // --- INICIALIZAÇÃO DA APLICAÇÃO ---
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // 1. Valida o cookie imediatamente ao carregar a página
+            ServicoAutenticacao.validarSessao();
+
+            // 2. Escuta o envio do formulário de login
+            document.getElementById('form-login').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const user = document.getElementById('usuario').value;
+                const pass = document.getElementById('senha').value;
+                ServicoAutenticacao.login(user, pass);
+            });
+
+            // 3. Atualiza data e relógio na UI
+            setInterval(() => {
+                document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR');
+            }, 1000);
+            
+            const opcoes = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('data-atual').innerText = new Date().toLocaleDateString('pt-BR', opcoes);
+        });
+    </script>
+</body>
+</html>
