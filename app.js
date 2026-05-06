@@ -49,21 +49,19 @@ const ServicoAutenticacao = {
     
     login: async function(usuario, senha) {
         try {
-            alert('usuário: ' + usuario + ' - senha: ' + senha);
             // Consulta o Supabase procurando pelo username, se ele está ativo e se a senha bate
             const { data, error } = await supabaseClient
                 .from('users')
-                .select('*');
-                //.eq('username', usuario)
-                //.eq('password', senha) // Verificação simples de texto puro para o mockup
-                //.eq('ativo', true)
-                //.maybeSingle(); // Retorna um objeto único ou null (evita erro se não achar nada)
+                .select('*')
+                .eq('username', usuario)
+                .eq('password', senha) // Verificação simples de texto puro para o mockup
+                .eq('ativo', true)
+                .maybeSingle(); // Retorna um objeto único ou null (evita erro se não achar nada)
 
             if (error) throw error;
 
             // Se encontrou o usuário com essas credenciais
             if (data) {
-                alert("Login efetuado com sucesso. \ndata: " + data);
                 // Guarda o username no cookie por 1 dia para manter a sessão
                 CookieHelper.set(NOME_COOKIE, data.username, 1);
                 
@@ -73,7 +71,7 @@ const ServicoAutenticacao = {
                 return true;
             } else {
                 // Usuário ou senha incorretos (ou usuário inativo)
-                alert("Usuário ou senha incorretos. \ndata: " + data);
+                alert('Usuário ou senha incorretos.');
                 document.getElementById('alerta-erro').classList.replace('d-none', 'd-flex');
                 return false;
             }
