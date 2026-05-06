@@ -1,105 +1,93 @@
 :root {
-    --bg-escuro: #041d1f; /* Azul-esverdeado escuro idêntico ao da imagem */
-    --input-bg: rgba(255, 255, 255, 0.15);
-    --input-foco: rgba(255, 255, 255, 0.25);
+    --bg-escuro: #041d1f;
+    --input-bg: rgba(255, 255, 255, 0.1);
     --texto-claro: #ffffff;
 }
 
 body {
     background-color: var(--bg-escuro);
-    /* Cria o efeito de corte diagonal sutil no fundo igual ao da imagem */
-    background-image: linear-gradient(115deg, #031718 50%, #052326 50%);
+    background-image: linear-gradient(115deg, #031718 45%, #062b2e 45%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; /* Centraliza verticalmente na tela do celular */
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     color: var(--texto-claro);
+    margin: 0;
+    padding: 0 20px;
 }
 
-/* ================= ESTILIZAÇÃO DA TELA DE LOGIN (ESTRELA DO MOCKUP) ================= */
-
+/* TÍTULO EXATAMENTE COMO NA IMAGEM DE REFERÊNCIA */
 .titulo-login {
-    font-size: 1.6rem;
-    font-weight: 900;
-    letter-spacing: 1px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
     color: var(--texto-claro);
     text-transform: uppercase;
-    line-height: 1.2;
+    line-height: 1.3;
+    margin-bottom: 40px !important;
 }
 
-/* Container do input no formato de pílula escura */
+/* FORMATO PERFEITO DA PÍLULA ESCURA */
 .grupo-input-custom {
     background-color: var(--input-bg);
     border-radius: 50px;
-    padding: 4px;
+    padding: 6px;
     display: flex;
     align-items: center;
-    transition: background-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.grupo-input-custom:focus-within {
-    background-color: var(--input-foco);
-}
-
-/* Caixa circular branca para os ícones */
+/* CAIXA CIRCULAR BRANCA DOS ÍCONES (IGUAL AO LAYOUT) */
 .icone-capsula {
     background-color: #ffffff;
     color: #041d1f;
-    width: 48px;
-    height: 48px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    font-size: 1.5rem;
+    flex-shrink: 0; /* Impede o círculo de achatar no mobile */
 }
 
-/* O input de texto invisível integrado à pílula */
+/* INPUT DE TEXTO TOTALMENTE LIMPO E ALINHADO */
 .input-invisivel {
-    background: transparent;
-    border: none;
+    background: transparent !important;
+    border: none !important;
     color: #ffffff !important;
-    padding: 10px 20px;
-    font-size: 1.05rem;
+    padding: 10px 24px !important;
+    font-size: 1.1rem;
     width: 100%;
 }
 
 .input-invisivel::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.35);
 }
 
 .input-invisivel:focus {
-    outline: none;
-    box-shadow: none;
-    background: transparent;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-/* Botão em formato de cápsula branca */
+/* BOTÃO CÁPSULA BRANCO LARGO */
 .btn-autenticar {
-    background-color: #ffffff;
-    color: #041d1f;
-    font-weight: 900;
-    font-size: 1.2rem;
+    background-color: #ffffff !important;
+    color: #041d1f !important;
+    font-weight: 800;
+    font-size: 1.3rem;
     text-transform: uppercase;
-    border: none;
-    border-radius: 50px;
-    padding: 12px;
-    transition: transform 0.1s ease, background-color 0.2s ease;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 14px !important;
+    width: 100%;
+    margin-top: 15px;
+    letter-spacing: 0.5px;
 }
 
-.btn-autenticar:hover {
-    background-color: #f1f5f9;
-    color: #041d1f;
-}
-
-.btn-autenticar:active {
-    transform: scale(0.98);
-}
-
-/* ================= AJUSTES DA TELA DE PONTO PARA HARMONIZAR COM O CLARO/ESCURO ================= */
-
+/* ESTILO DA ÁREA LOGADA (MANTIDO SEGURO) */
 .card-custom-ponto {
     border: none;
     border-radius: 20px;
@@ -122,7 +110,6 @@ body {
     font-family: monospace;
 }
 
-/* Controle de exibição das telas */
 .secao-tela {
     display: none;
 }
