@@ -32,28 +32,55 @@ const ServicoAutenticacao = {
         document.getElementById('tela-login').classList.remove('ativa');
         document.getElementById('tela-ponto').classList.remove('ativa');
         
-        if (cookieSessao === "token_autenticado_operador") {
+        // Aqui você pode expandir depois para validar se o token/username guardado é válido
+        if (cookieSessao) {
             document.getElementById('tela-ponto').classList.add('ativa');
         } else {
             document.getElementById('tela-login').classList.add('ativa');
         }
     },
-    login: function(usuario, senha) {
-        if (usuario === "operador" && senha === "123mudar") {
-            CookieHelper.set(NOME_COOKIE, "token_autenticado_operador", 1);
-            document.getElementById('alerta-erro').classList.replace('d-flex', 'd-none');
-            this.validarSessao();
-            return true;
-        } else {
-            document.getElementById('alerta-erro').classList.replace('d-none', 'd-flex');
+    
+    login: async function(usuario, senha) {
+        try {
+            // Consulta o Supabase procurando pelo username, se ele está ativo e se a senha bate
+            const { data, error } = await supabase
+                .from('usuarios')
+                .select('username, ativo')
+                .eq('username', usuario)
+                .eq('password', senha) // Verificação simples de texto puro para o mockup
+                .eq('ativo', true)
+                .maybeSingle(); // Retorna um objeto único ou null (evita erro se não achar nada)
+
+            if (error) throw error;
+
+            // Se encontrou o usuário com essas credenciais
+            if (data) {
+                // Guarda o username no cookie por 1 dia para manter a sessão
+                CookieHelper.set(NOME_COOKIE, data.username, 1);
+                
+                // Limpa mensagens de erro e atualiza a tela
+                document.getElementById('alerta-erro').classList.replace('d-flex', 'd-none');
+                this.validarSessao();
+                return true;
+            } else {
+                // Usuário ou senha incorretos (ou usuário inativo)
+                document.getElementById('alerta-erro').classList.replace('d-none', 'd-flex');
+                return false;
+            }
+
+        } catch (err) {
+            console.error("Erro na autenticação:", err.message);
+            alert("Ocorreu um erro ao tentar conectar ao servidor de autenticação.");
             return false;
         }
     },
+    
     logout: function() {
         CookieHelper.erase(NOME_COOKIE);
         this.validarSessao();
     }
 };
+
 
 function efetuarLogout() {     
         // 1. Apaga o cookie definindo uma data de expiração no passado e limpando o caminho (path)
@@ -116,11 +143,14 @@ function registrarPonto(tipo) {
 document.addEventListener("DOMContentLoaded", () => {
     ServicoAutenticacao.validarSessao();
 
-    document.getElementById('form-login').addEventListener('submit', (e) => {
+    // Transformamos a função do evento em ASYNC
+    document.getElementById('form-login').addEventListener('submit', async (e) => {
         e.preventDefault();
         const user = document.getElementById('usuario').value;
         const pass = document.getElementById('senha').value;
-        ServicoAutenticacao.login(user, pass);
+        
+        // Adicionamos o AWAY para esperar a resposta do Supabase
+        await ServicoAutenticacao.login(user, pass);
     });
 
     setInterval(() => {
