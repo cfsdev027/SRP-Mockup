@@ -3,100 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de Ponto - Mockup</title>
+    <title>Controle de Ponto - Interno</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/dist/css/bootstrap.min.css" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
     <style>
+        :root {
+            --bg-principal: #f0f4f8;
+            --azul-corporativo: #1e3a8a;
+            --azul-hover: #172554;
+        }
+
         body {
-            background-color: #f4f6f9;
+            background-color: var(--bg-principal);
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-        .card-mockup {
+
+        .navbar-corporativa {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .card-custom {
             border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            background: #ffffff;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
         }
+
+        .btn-principal {
+            background-color: var(--azul-corporativo);
+            color: white;
+            border: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-principal:hover {
+            background-color: var(--azul-hover);
+            color: white;
+        }
+
+        .input-custom:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        }
+
+        .painel-relogio {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #ffffff;
+            border-radius: 12px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .log-terminal {
+            background-color: #111827;
+            color: #10b981;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+            border-left: 4px solid #059669;
+        }
+
         .secao-tela {
             display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
+
         .secao-tela.ativa {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
-    <header class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <span class="fs-4 me-2">⏱️</span>
-                <strong>Ponto Digital Interno</strong>
+    <nav class="navbar navbar-corporativa py-3 shadow-sm">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a class="navbar-brand d-flex align-items-center text-dark fw-bold" href="#">
+                <i class="bi bi-clock-history text-primary me-2 fs-3"></i>
+                <span>PONTO <span class="text-primary">DIGITAL</span></span>
             </a>
-            <span class="badge text-bg-warning">Modo Demonstração</span>
+            <span class="badge rounded-pill bg-light text-dark border border-secondary-subtle px-3 py-2 font-monospace">
+                <i class="bi bi-shield-check text-success me-1"></i> Ambiente Homologação
+            </span>
         </div>
-    </header>
+    </nav>
 
     <main class="container my-auto py-5">
         <div class="row justify-content-center">
-            <div class="col-12 col-md-6 col-lg-5">
+            <div class="col-12 col-sm-10 col-md-7 col-lg-5">
 
-                <section id="tela-login" class="secao-tela card card-mockup p-4 bg-white">
+                <section id="tela-login" class="secao-tela card-custom p-4 p-sm-5 bg-white">
                     <div class="text-center mb-4">
-                        <h2 class="fw-bold text-secondary">Acesso ao Sistema</h2>
-                        <p class="text-muted small">Insira suas credenciais de operador</p>
+                        <div class="d-inline-flex p-3 bg-primary-subtle rounded-circle text-primary mb-3">
+                            <i class="bi bi-lock fs-2"></i>
+                        </div>
+                        <h2 class="fw-black text-dark h3">Identificação</h2>
+                        <p class="text-muted small">Insira os dados do operador interno</p>
                     </div>
                     
-                    <div id="alerta-erro" class="alert alert-danger d-none" role="alert">
-                        Usuário ou senha inválidos!
+                    <div id="alerta-erro" class="alert alert-danger d-none align-items-center" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <div>Usuário ou senha incorretos!</div>
                     </div>
 
-                    <form id="form-login">
+                    <form id="form-login" class="needs-validation" novalidate>
                         <div class="mb-3">
-                            <label for="usuario" class="form-label font-monospace">Usuário</label>
-                            <input type="text" class="form-control" id="usuario" value="operador" required>
+                            <label for="usuario" class="form-label text-secondary small fw-bold">NOME DE USUÁRIO</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person"></i></span>
+                                <input type="text" class="form-control input-custom border-start-0 ps-0" id="usuario" value="operador" required>
+                            </div>
                         </div>
                         <div class="mb-4">
-                            <label for="senha" class="form-label font-monospace">Senha</label>
-                            <input type="password" class="form-control" id="senha" value="123mudar" required>
+                            <label for="senha" class="form-label text-secondary small fw-bold">SENHA CORPORATIVA</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-key"></i></span>
+                                <input type="password" class="form-control input-custom border-start-0 ps-0" id="senha" value="123mudar" required>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary w-full py-2 fw-semibold shadow-sm">
-                            Entrar
+                        <button type="submit" class="btn btn-principal w-100 py-2.5 fw-bold rounded-3 shadow-sm">
+                            Acessar Sistema <i class="bi bi-arrow-right ms-1"></i>
                         </button>
                     </form>
                 </section>
 
-                <section id="tela-ponto" class="secao-tela card card-mockup p-4 bg-white">
+                <section id="tela-ponto" class="secao-tela card-custom p-4 bg-white">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
-                        <div>
-                            <h3 class="h5 fw-bold mb-0 text-success">● Conectado</h3>
-                            <small class="text-muted">Operador: <span class="fw-semibold">Caio Fischer</span></small>
+                        <div class="d-flex align-items-center">
+                            <div class="position-relative me-3">
+                                <div class="bg-success-subtle p-2.5 rounded-circle text-success">
+                                    <i class="bi bi-person-bounding-box fs-4"></i>
+                                </div>
+                                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-white rounded-circle"></span>
+                            </div>
+                            <div>
+                                <h4 class="h6 fw-black mb-0 text-dark">Caio Fischer</h4>
+                                <span class="text-muted text-[11px]" style="font-size: 0.75rem;">CPF: 123.***.***-00</span>
+                            </div>
                         </div>
-                        <button onclick="ServicoAutenticacao.logout()" class="btn btn-sm btn-outline-danger">Sair</button>
+                        <button onclick="ServicoAutenticacao.logout()" class="btn btn-sm btn-outline-secondary rounded-2">
+                            <i class="bi bi-box-arrow-right me-1"></i> Sair
+                        </button>
                     </div>
 
-                    <div class="bg-light border rounded p-4 text-center mb-4">
-                        <p class="text-uppercase text-muted tracking-wider small fw-bold mb-1">Horário do Servidor</p>
-                        <div id="relogio" class="display-6 font-monospace fw-bold text-dark">00:00:00</div>
-                        <p id="data-atual" class="text-muted small mt-1 mb-0"></p>
+                    <div class="painel-relogio p-4 text-center mb-4">
+                        <p class="text-uppercase tracking-widest text-secondary text-white-50 small fw-bold mb-1">Horário Oficial do Servidor</p>
+                        <div id="relogio" class="display-5 font-monospace fw-black tracking-normal my-1">00:00:00</div>
+                        <p id="data-atual" class="small opacity-70 mb-0 font-monospace text-capitalize"></p>
                     </div>
 
-                    <div class="d-grid gap-2">
-                        <button id="btn-entrada" onclick="registrarPonto('ENTRADA')" class="btn btn-success py-3 fw-bold">
-                            Iniciar Expediente
-                        </button>
-                        <button id="btn-saida" onclick="registrarPonto('SAÍDA')" class="btn btn-secondary py-3 fw-bold" disabled>
-                            Finalizar Expediente
-                        </button>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <button id="btn-entrada" onclick="registrarPonto('ENTRADA')" class="btn btn-success w-100 py-3 fw-bold rounded-3 d-flex flex-column align-items-center gap-1 shadow-sm">
+                                <i class="bi bi-play-circle fs-3"></i>
+                                <span>Entrada</span>
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button id="btn-saida" onclick="registrarPonto('SAÍDA')" class="btn btn-secondary w-100 py-3 fw-bold rounded-3 d-flex flex-column align-items-center gap-1" disabled>
+                                <i class="bi bi-stop-circle fs-3"></i>
+                                <span>Saída</span>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="mt-4">
-                        <h6 class="fw-bold text-secondary small text-uppercase">Log da Sessão</h6>
-                        <div id="console-ponto" class="bg-dark text-light p-3 rounded font-monospace small" style="min-h: 50px;">
-                            <span class="text-muted italic">Aguardando interações...</span>
+                        <label class="form-label text-secondary small fw-bold mb-2">EVIDÊNCIA DE REGISTRO (TRILHA DE SESSÃO)</label>
+                        <div id="console-ponto" class="log-terminal small shadow-sm d-flex align-items-center justify-content-center" style="min-height: 56px;">
+                            <span class="text-muted opacity-50 font-monospace text-center"><i class="bi bi-hourglass-split me-1"></i> Aguardando comando...</span>
                         </div>
                     </div>
                 </section>
@@ -105,9 +191,9 @@
         </div>
     </main>
 
-    <footer class="bg-white border-top py-3 text-center text-muted small">
+    <footer class="bg-white border-top py-3 text-center text-muted font-monospace" style="font-size: 0.75rem;">
         <div class="container">
-            Controle de Ponto • Validado via Cookies Corporativos
+            &copy; 2026 • Sistema Interno Registrador de Ponto • Protegido por Cookie HttpOnly Fictício
         </div>
     </footer>
 
@@ -116,7 +202,6 @@
     <script>
         const NOME_COOKIE = "SRP-Mockup-Autentication";
 
-        // --- SERVIÇO AUXILIAR DE COOKIES (Abstração nativa) ---
         const CookieHelper = {
             set: function(nome, valor, dias) {
                 let expiracao = "";
@@ -142,12 +227,10 @@
             }
         };
 
-        // --- SERVIÇO DE AUTENTICAÇÃO MOCKADO ---
         const ServicoAutenticacao = {
             validarSessao: function() {
                 const cookieSessao = CookieHelper.get(NOME_COOKIE);
                 
-                // Remove a classe ativa de todas e limpa mensagens
                 document.getElementById('tela-login').classList.remove('ativa');
                 document.getElementById('tela-ponto').classList.remove('ativa');
                 
@@ -158,15 +241,13 @@
                 }
             },
             login: function(usuario, senha) {
-                // Validação mockada exigida por você
-                if (usuario === "operador" && senha === "123mudar") {
-                    // Cria o cookie de autenticação válido por 1 dia
+                if (usuario === "operador" &&延 senha === "123mudar") {
                     CookieHelper.set(NOME_COOKIE, "token_autenticado_operador", 1);
-                    document.getElementById('alerta-erro').classList.add('d-none');
+                    document.getElementById('alerta-erro').classList.replace('d-flex', 'd-none');
                     this.validarSessao();
                     return true;
                 } else {
-                    document.getElementById('alerta-erro').classList.remove('d-none');
+                    document.getElementById('alerta-erro').classList.replace('d-none', 'd-flex');
                     return false;
                 }
             },
@@ -176,33 +257,32 @@
             }
         };
 
-        // --- REGRAS DE INTERAÇÃO DA TELA DE PONTO ---
         function registrarPonto(tipo) {
             const hora = new Date().toLocaleTimeString('pt-BR');
             const log = document.getElementById('console-ponto');
             
+            // Ajusta o estilo para remover o alinhamento centralizado do placeholder inicial
+            log.classList.remove('justify-content-center');
+            
             if (tipo === 'ENTRADA') {
                 document.getElementById('btn-entrada').disabled = true;
-                document.getElementById('btn-entrada').className = "btn btn-secondary py-3 fw-bold";
-                document.getElementById('btn-saida').disabled = false;
-                document.getElementById('btn-saida').className = "btn btn-danger py-3 fw-bold";
+                document.getElementById('btn-entrada').className = "btn btn-secondary w-100 py-3 fw-bold rounded-3 d-flex flex-column align-items-center gap-1";
                 
-                log.innerHTML = `<p class="text-success mb-0">✓ ENTRADA REGISTRADA ÀS ${hora}</p>`;
+                document.getElementById('btn-saida').disabled = false;
+                document.getElementById('btn-saida').className = "btn btn-danger w-100 py-3 fw-bold rounded-3 d-flex flex-column align-items-center gap-1 shadow-sm";
+                
+                log.innerHTML = `<div><span class="text-success fw-bold">⚡ [${hora}] ENTRADA CONFIRMADA</span><br><span style="font-size: 10px; color: #6b7280;">Trilha: IP 177.42.11.89 | Sessão vinculada ao CPF</span></div>`;
             } else {
                 document.getElementById('btn-saida').disabled = true;
-                document.getElementById('btn-saida').className = "btn btn-secondary py-3 fw-bold";
+                document.getElementById('btn-saida').className = "btn btn-secondary w-100 py-3 fw-bold rounded-3 d-flex flex-column align-items-center gap-1";
                 
-                log.innerHTML += `<p class="text-warning mb-0 mt-1">✓ SAÍDA REGISTRADA ÀS ${hora}</p>`;
+                log.innerHTML += `<div class="mt-2"><span class="text-warning fw-bold">⚡ [${hora}] SAÍDA CONFIRMADA</span><br><span style="font-size: 10px; color: #6b7280;">Trilha: Log de Auditoria fechado e selado no servidor</span></div>`;
             }
         }
 
-        // --- INICIALIZAÇÃO DA APLICAÇÃO ---
         document.addEventListener("DOMContentLoaded", () => {
-            
-            // 1. Valida o cookie imediatamente ao carregar a página
             ServicoAutenticacao.validarSessao();
 
-            // 2. Escuta o envio do formulário de login
             document.getElementById('form-login').addEventListener('submit', (e) => {
                 e.preventDefault();
                 const user = document.getElementById('usuario').value;
@@ -210,13 +290,14 @@
                 ServicoAutenticacao.login(user, pass);
             });
 
-            // 3. Atualiza data e relógio na UI
             setInterval(() => {
-                document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR');
+                const relogio = document.getElementById('relogio');
+                if(relogio) relogio.innerText = new Date().toLocaleTimeString('pt-BR');
             }, 1000);
             
             const opcoes = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('data-atual').innerText = new Date().toLocaleDateString('pt-BR', opcoes);
+            const dataAtual = document.getElementById('data-atual');
+            if(dataAtual) dataAtual.innerText = new Date().toLocaleDateString('pt-BR', opcoes);
         });
     </script>
 </body>
