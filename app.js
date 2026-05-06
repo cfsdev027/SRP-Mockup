@@ -58,22 +58,55 @@ const ServicoAutenticacao = {
 function registrarPonto(tipo) {
     const hora = new Date().toLocaleTimeString('pt-BR');
     const log = document.getElementById('console-ponto');
+    const placeholder = document.getElementById('placeholder-log');
     
-    log.classList.remove('justify-content-center');
+    // Remove o placeholder na primeira interação
+    if (placeholder) {
+        log.innerHTML = '';
+    }
     
     if (tipo === 'ENTRADA') {
-        document.getElementById('btn-entrada').disabled = true;
-        document.getElementById('btn-entrada').className = "btn btn-secondary w-100 py-3 fw-bold rounded-3 d-flex flex-column align-items-center gap-1";
+        // Altera o estado do botão Entrada para desabilitado corporativo
+        const btnEntrada = document.getElementById('btn-entrada');
+        btnEntrada.disabled = true;
+        btnEntrada.style.background = "#f8fafc";
+        btnEntrada.style.color = "#64748b";
+        btnEntrada.style.border = "1px solid #e2e8f0";
         
-        document.getElementById('btn-saida').disabled = false;
-        document.getElementById('btn-saida').className = "btn btn-danger w-100 py-3 fw-bold rounded-3 d-flex flex-column align-items-center gap-1 shadow-sm";
+        // Ativa o botão Saída com destaque vermelho discreto
+        const btnSaida = document.getElementById('btn-saida');
+        btnSaida.disabled = false;
+        btnSaida.style.background = "#ef4444";
+        btnSaida.style.color = "#ffffff";
+        btnSaida.style.border = "none";
         
-        log.innerHTML = `<div><span class="text-success fw-bold">⚡ [${hora}] ENTRADA CONFIRMADA</span><br><span style="font-size: 10px; color: #6b7280;">Trilha: IP 177.42.11.89 | Sessão vinculada ao CPF</span></div>`;
+        log.innerHTML += `
+            <div style="border-left: 2px solid #10b981; padding-left: 8px; line-height: 1.4;">
+                <div style="margin-bottom: 2px;">
+                    <span style="color: #64748b; font-weight: bold;">[${hora}]</span>
+                    <span style="color: #10b981; font-weight: bold;">ENTRADA CONFIRMADA</span>
+                </div>
+                <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    Trilha: IP 177.42.11.89 | Sessão vinculada ao CPF
+                </div>
+            </div>`;
     } else {
-        document.getElementById('btn-saida').disabled = true;
-        document.getElementById('btn-saida').className = "btn btn-secondary w-100 py-3 fw-bold rounded-3 d-flex flex-column align-items-center gap-1";
+        const btnSaida = document.getElementById('btn-saida');
+        btnSaida.disabled = true;
+        btnSaida.style.background = "#f8fafc";
+        btnSaida.style.color = "#64748b";
+        btnSaida.style.border = "1px solid #e2e8f0";
         
-        log.innerHTML += `<div class="mt-2"><span class="text-warning fw-bold">⚡ [${hora}] SAÍDA CONFIRMADA</span><br><span style="font-size: 10px; color: #6b7280;">Trilha: Log de Auditoria fechado e selado no servidor</span></div>`;
+        log.innerHTML += `
+            <div style="border-left: 2px solid #f59e0b; padding-left: 8px; line-height: 1.4;">
+                <div style="margin-bottom: 2px;">
+                    <span style="color: #64748b; font-weight: bold;">[${hora}]</span>
+                    <span style="color: #f59e0b; font-weight: bold;">SAÍDA CONFIRMADA</span>
+                </div>
+                <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    Trilha: Log de Auditoria fechado e selado no servidor
+                </div>
+            </div>`;
     }
 }
 
@@ -96,4 +129,3 @@ document.addEventListener("DOMContentLoaded", () => {
     const dataAtual = document.getElementById('data-atual');
     if(dataAtual) dataAtual.innerText = new Date().toLocaleDateString('pt-BR', opcoes);
 });
-  
