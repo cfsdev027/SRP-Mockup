@@ -52,33 +52,22 @@
                             </div>
                             <div class="server-time-box">
                                 <div class="server-time-title">Horário Oficial do Servidor</div>
-                                <div class="server-time-clock">16:00:48</div>
-                                <div class="server-time-date">quarta-feira, 6 de maio de 2026</div>
+                                <div id="relogio" class="server-time-clock">00:00:00</div>
+                                <div id="data-atual" class="server-time-date">...</div>
                             </div>
                             <div class="punch-actions">
-                                <button class="btn-punch btn-entry">
+                                <button id="btn-entrada" class="btn-punch btn-entry" onclick="registrarPonto('ENTRADA')">
                                 <i class="bi bi-play-fill"></i> Entrada
                                 </button>
-                                <button class="btn-punch btn-exit">
+                                <button id="btn-saida" class="btn-punch btn-exit" onclick="registrarPonto('SAIDA')" disabled>
                                 <i class="bi bi-stop-fill"></i> Saída
                                 </button>
                             </div>
                             <div class="evidence-section">
                                 <div class="evidence-title">Evidência de Registro (Trilha)</div>
-                                <div class="terminal-log">
-                                    <div class="log-item">
-                                        <div class="log-header-line">
-                                            <span class="log-time">[16:00:41]</span>
-                                            <span class="log-status status-entry">ENTRADA CONFIRMADA</span>
-                                        </div>
-                                        <div class="log-details">Trilha: IP 177.42.11.89 | Sessão vinculada ao CPF</div>
-                                    </div>
-                                    <div class="log-item">
-                                        <div class="log-header-line">
-                                            <span class="log-time">[16:00:44]</span>
-                                            <span class="log-status status-exit">SAÍDA CONFIRMADA</span>
-                                        </div>
-                                        <div class="log-details">Trilha: Log de Auditoria fechado e selado no servidor</div>
+                                <div id="console-ponto" class="terminal-log">
+                                    <div id="placeholder-log" style="color: #64748b; font-style: italic; font-size: 0.85rem;">
+                                        Nenhum ponto registrado nesta sessão.
                                     </div>
                                 </div>
                             </div>
