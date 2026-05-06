@@ -1,54 +1,117 @@
 :root {
-    --bg-principal: #f0f4f8;
-    --azul-corporativo: #1e3a8a;
-    --azul-hover: #172554;
+    --bg-escuro: #041d1f; /* Azul-esverdeado escuro idêntico ao da imagem */
+    --input-bg: rgba(255, 255, 255, 0.15);
+    --input-foco: rgba(255, 255, 255, 0.25);
+    --texto-claro: #ffffff;
 }
 
 body {
-    background-color: var(--bg-principal);
-    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-    background-size: 24px 24px;
+    background-color: var(--bg-escuro);
+    /* Cria o efeito de corte diagonal sutil no fundo igual ao da imagem */
+    background-image: linear-gradient(115deg, #031718 50%, #052326 50%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--texto-claro);
 }
 
-.navbar-corporativa {
+/* ================= ESTILIZAÇÃO DA TELA DE LOGIN (ESTRELA DO MOCKUP) ================= */
+
+.titulo-login {
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: var(--texto-claro);
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+/* Container do input no formato de pílula escura */
+.grupo-input-custom {
+    background-color: var(--input-bg);
+    border-radius: 50px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.grupo-input-custom:focus-within {
+    background-color: var(--input-foco);
+}
+
+/* Caixa circular branca para os ícones */
+.icone-capsula {
     background-color: #ffffff;
-    border-bottom: 1px solid #e2e8f0;
+    color: #041d1f;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-.card-custom {
+/* O input de texto invisível integrado à pílula */
+.input-invisivel {
+    background: transparent;
     border: none;
-    border-radius: 16px;
+    color: #ffffff !important;
+    padding: 10px 20px;
+    font-size: 1.05rem;
+    width: 100%;
+}
+
+.input-invisivel::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.input-invisivel:focus {
+    outline: none;
+    box-shadow: none;
+    background: transparent;
+}
+
+/* Botão em formato de cápsula branca */
+.btn-autenticar {
+    background-color: #ffffff;
+    color: #041d1f;
+    font-weight: 900;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 50px;
+    padding: 12px;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+.btn-autenticar:hover {
+    background-color: #f1f5f9;
+    color: #041d1f;
+}
+
+.btn-autenticar:active {
+    transform: scale(0.98);
+}
+
+/* ================= AJUSTES DA TELA DE PONTO PARA HARMONIZAR COM O CLARO/ESCURO ================= */
+
+.card-custom-ponto {
+    border: none;
+    border-radius: 20px;
     background: #ffffff;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-
-.btn-principal {
-    background-color: var(--azul-corporativo);
-    color: white;
-    border: none;
-    transition: background-color 0.2s ease;
-}
-
-.btn-principal:hover {
-    background-color: var(--azul-hover);
-    color: white;
-}
-
-.input-custom:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    color: #1e293b;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
 .painel-relogio {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     color: #ffffff;
-    border-radius: 12px;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    border-radius: 14px;
 }
 
 .log-terminal {
@@ -56,19 +119,14 @@ body {
     color: #10b981;
     border-radius: 8px;
     padding: 12px;
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
-    border-left: 4px solid #059669;
+    font-family: monospace;
 }
 
+/* Controle de exibição das telas */
 .secao-tela {
     display: none;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .secao-tela.ativa {
     display: block;
-    opacity: 1;
-    transform: translateY(0);
 }
