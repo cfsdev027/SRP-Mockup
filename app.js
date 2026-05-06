@@ -1,3 +1,10 @@
+// Configurações do Supabase (Pode deixar exposto no GitHub Pages sem problemas se o RLS estiver ativo)
+const SUPABASE_URL = "https://sdakvoeythnbfqfgupzf.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_do_4F5CXc_u235MQ4c4tFw_054op9X-";
+
+// Inicializa o cliente global do Supabase
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 const NOME_COOKIE = "SRP-Mockup-Autentication";
 
 const CookieHelper = {
