@@ -52,7 +52,7 @@ const ServicoAutenticacao = {
             // Consulta o Supabase procurando pelo username, se ele está ativo e se a senha bate
             const { data, error } = await supabaseClient
                 .from('users')
-                .select('username, ativo')
+                .select('*')
                 .eq('username', usuario)
                 .eq('password', senha) // Verificação simples de texto puro para o mockup
                 .eq('ativo', true)
