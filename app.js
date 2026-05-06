@@ -71,6 +71,7 @@ const ServicoAutenticacao = {
                 return true;
             } else {
                 // Usuário ou senha incorretos (ou usuário inativo)
+                alert("Usuário ou senha incorretos.");
                 document.getElementById('alerta-erro').classList.replace('d-none', 'd-flex');
                 return false;
             }
