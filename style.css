@@ -1,0 +1,74 @@
+:root {
+    --bg-principal: #f0f4f8;
+    --azul-corporativo: #1e3a8a;
+    --azul-hover: #172554;
+}
+
+body {
+    background-color: var(--bg-principal);
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 24px 24px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.navbar-corporativa {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.card-custom {
+    border: none;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.btn-principal {
+    background-color: var(--azul-corporativo);
+    color: white;
+    border: none;
+    transition: background-color 0.2s ease;
+}
+
+.btn-principal:hover {
+    background-color: var(--azul-hover);
+    color: white;
+}
+
+.input-custom:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.painel-relogio {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.log-terminal {
+    background-color: #111827;
+    color: #10b981;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+    border-left: 4px solid #059669;
+}
+
+.secao-tela {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.secao-tela.ativa {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
