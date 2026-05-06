@@ -49,6 +49,7 @@ const ServicoAutenticacao = {
     
     login: async function(usuario, senha) {
         try {
+            alert('usuário: ' + usuario + ' - senha: ' + senha);
             // Consulta o Supabase procurando pelo username, se ele está ativo e se a senha bate
             const { data, error } = await supabaseClient
                 .from('users')
