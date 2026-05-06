@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de Ponto - Interno</title>
+    <title>Controle de Ponto - Autenticação</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/dist/css/bootstrap.min.css" rel="stylesheet">
     
@@ -13,58 +13,42 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-corporativa py-3 shadow-sm">
-        <div class="container d-flex justify-content-between align-items-center">
-            <a class="navbar-brand d-flex align-items-center text-dark fw-bold" href="#">
-                <i class="bi bi-clock-history text-primary me-2 fs-3"></i>
-                <span>PONTO <span class="text-primary">DIGITAL</span></span>
-            </a>
-            <span class="badge rounded-pill bg-light text-dark border border-secondary-subtle px-3 py-2 font-monospace">
-                <i class="bi bi-shield-check text-success me-1"></i> Ambiente Homologação
-            </span>
-        </div>
-    </nav>
-
-    <main class="container my-auto py-5">
+    <main class="container py-5">
         <div class="row justify-content-center">
             <div class="col-12 col-sm-10 col-md-7 col-lg-5">
 
-                <section id="tela-login" class="secao-tela card-custom p-4 p-sm-5 bg-white">
-                    <div class="text-center mb-4">
-                        <div class="d-inline-flex p-3 bg-primary-subtle rounded-circle text-primary mb-3">
-                            <i class="bi bi-lock fs-2"></i>
-                        </div>
-                        <h2 class="fw-black text-dark h3">Identificação</h2>
-                        <p class="text-muted small">Insira os dados do operador interno</p>
+                <section id="tela-login" class="secao-tela">
+                    <div class="text-center mb-5">
+                        <h2 class="titulo-login">REGISTRO DE PONTO -<br>AUTENTICAÇÃO</h2>
                     </div>
                     
-                    <div id="alerta-erro" class="alert alert-danger d-none align-items-center" role="alert">
+                    <div id="alerta-erro" class="alert alert-danger d-none align-items-center rounded-4 mb-4" role="alert">
                         <i class="bi bi-exclamation-triangle-fill me-2"></i>
                         <div>Usuário ou senha incorretos!</div>
                     </div>
 
-                    <form id="form-login" novalidate>
-                        <div class="mb-3">
-                            <label class="form-label text-secondary small fw-bold">NOME DE USUÁRIO</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person"></i></span>
-                                <input type="text" class="form-control input-custom border-start-0 ps-0" id="usuario" value="operador" required>
+                    <form id="form-login" novalidate class="d-grid gap-4">
+                        <div class="grupo-input-custom">
+                            <div class="icone-capsula">
+                                <i class="bi bi-person"></i>
                             </div>
+                            <input type="text" class="input-invisivel form-control" id="usuario" placeholder="Usuário" value="operador" required>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label text-secondary small fw-bold">SENHA CORPORATIVA</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-key"></i></span>
-                                <input type="password" class="form-control input-custom border-start-0 ps-0" id="senha" value="123mudar" required>
+
+                        <div class="grupo-input-custom flex-row-reverse">
+                            <div class="icone-capsula">
+                                <i class="bi bi-lock"></i>
                             </div>
+                            <input type="password" class="input-invisivel form-control" id="senha" placeholder="Senha" value="123mudar" required>
                         </div>
-                        <button type="submit" class="btn btn-principal w-100 py-2.5 fw-bold rounded-3 shadow-sm">
-                            Acessar Sistema <i class="bi bi-arrow-right ms-1"></i>
+
+                        <button type="submit" class="btn btn-autenticar w-100 mt-2 shadow">
+                            Autenticar
                         </button>
                     </form>
                 </section>
 
-                <section id="tela-ponto" class="secao-tela card-custom p-4 bg-white">
+                <section id="tela-ponto" class="secao-tela card-custom-ponto p-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
                         <div class="d-flex align-items-center">
                             <div class="position-relative me-3">
@@ -115,12 +99,6 @@
             </div>
         </div>
     </main>
-
-    <footer class="bg-white border-top py-3 text-center text-muted font-monospace" style="font-size: 0.75rem;">
-        <div class="container">
-            &copy; 2026 • Sistema Interno Registrador de Ponto • Protegido por Cookie HttpOnly Fictício
-        </div>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/dist/js/bootstrap.bundle.min.js"></script>
 
