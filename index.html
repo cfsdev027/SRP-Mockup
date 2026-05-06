@@ -118,16 +118,16 @@
                         <div>Usuário ou senha incorretos!</div>
                     </div>
 
-                    <form id="form-login" class="needs-validation" novalidate>
+                    <form id="form-login" novalidate>
                         <div class="mb-3">
-                            <label for="usuario" class="form-label text-secondary small fw-bold">NOME DE USUÁRIO</label>
+                            <label class="form-label text-secondary small fw-bold">NOME DE USUÁRIO</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person"></i></span>
                                 <input type="text" class="form-control input-custom border-start-0 ps-0" id="usuario" value="operador" required>
                             </div>
                         </div>
                         <div class="mb-4">
-                            <label for="senha" class="form-label text-secondary small fw-bold">SENHA CORPORATIVA</label>
+                            <label class="form-label text-secondary small fw-bold">SENHA CORPORATIVA</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-key"></i></span>
                                 <input type="password" class="form-control input-custom border-start-0 ps-0" id="senha" value="123mudar" required>
@@ -149,8 +149,8 @@
                                 <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-white rounded-circle"></span>
                             </div>
                             <div>
-                                <h4 class="h6 fw-black mb-0 text-dark">Caio Fischer</h4>
-                                <span class="text-muted text-[11px]" style="font-size: 0.75rem;">CPF: 123.***.***-00</span>
+                                <h4 class="h6 fw-bold mb-0 text-dark">Caio Fischer</h4>
+                                <span class="text-muted" style="font-size: 0.75rem;">CPF: 123.***.***-00</span>
                             </div>
                         </div>
                         <button onclick="ServicoAutenticacao.logout()" class="btn btn-sm btn-outline-secondary rounded-2">
@@ -159,8 +159,8 @@
                     </div>
 
                     <div class="painel-relogio p-4 text-center mb-4">
-                        <p class="text-uppercase tracking-widest text-secondary text-white-50 small fw-bold mb-1">Horário Oficial do Servidor</p>
-                        <div id="relogio" class="display-5 font-monospace fw-black tracking-normal my-1">00:00:00</div>
+                        <p class="text-uppercase tracking-widest text-white-50 small fw-bold mb-1">Horário Oficial do Servidor</p>
+                        <div id="relogio" class="display-5 font-monospace fw-bold my-1">00:00:00</div>
                         <p id="data-atual" class="small opacity-70 mb-0 font-monospace text-capitalize"></p>
                     </div>
 
@@ -181,7 +181,7 @@
 
                     <div class="mt-4">
                         <label class="form-label text-secondary small fw-bold mb-2">EVIDÊNCIA DE REGISTRO (TRILHA DE SESSÃO)</label>
-                        <div id="console-ponto" class="log-terminal small shadow-sm d-flex align-items-center justify-content-center" style="min-height: 56px;">
+                        <div id="console-ponto" class="log-terminal small d-flex align-items-center justify-content-center" style="min-height: 56px;">
                             <span class="text-muted opacity-50 font-monospace text-center"><i class="bi bi-hourglass-split me-1"></i> Aguardando comando...</span>
                         </div>
                     </div>
@@ -241,7 +241,7 @@
                 }
             },
             login: function(usuario, senha) {
-                if (usuario === "operador" &&延 senha === "123mudar") {
+                if (usuario === "operador" && senha === "123mudar") {
                     CookieHelper.set(NOME_COOKIE, "token_autenticado_operador", 1);
                     document.getElementById('alerta-erro').classList.replace('d-flex', 'd-none');
                     this.validarSessao();
@@ -261,7 +261,6 @@
             const hora = new Date().toLocaleTimeString('pt-BR');
             const log = document.getElementById('console-ponto');
             
-            // Ajusta o estilo para remover o alinhamento centralizado do placeholder inicial
             log.classList.remove('justify-content-center');
             
             if (tipo === 'ENTRADA') {
