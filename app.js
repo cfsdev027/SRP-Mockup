@@ -55,6 +55,14 @@ const ServicoAutenticacao = {
     }
 };
 
+function efetuarLogout() {     
+        // 1. Apaga o cookie definindo uma data de expiração no passado e limpando o caminho (path)
+        document.cookie = NOME_COOKIE + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        
+        // 2. Redireciona o usuário de volta para a tela inicial/login
+        window.location.href = 'index.html';
+};
+
 function registrarPonto(tipo) {
     const hora = new Date().toLocaleTimeString('pt-BR');
     const log = document.getElementById('console-ponto');
@@ -108,7 +116,7 @@ function registrarPonto(tipo) {
                 </div>
             </div>`;
     }
-}
+};
 
 document.addEventListener("DOMContentLoaded", () => {
     ServicoAutenticacao.validarSessao();
