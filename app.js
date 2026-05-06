@@ -70,33 +70,30 @@ function registrarPonto(tipo) {
     
     // Remove o placeholder na primeira interação
     if (placeholder) {
-        log.innerHTML = '';
+        placeholder.remove();
     }
     
     if (tipo === 'ENTRADA') {
-        // Altera o estado do botão Entrada para desabilitado corporativo
         const btnEntrada = document.getElementById('btn-entrada');
         btnEntrada.disabled = true;
         btnEntrada.style.background = "#f8fafc";
         btnEntrada.style.color = "#64748b";
         btnEntrada.style.border = "1px solid #e2e8f0";
         
-        // Ativa o botão Saída com destaque vermelho discreto
         const btnSaida = document.getElementById('btn-saida');
         btnSaida.disabled = false;
         btnSaida.style.background = "#ef4444";
         btnSaida.style.color = "#ffffff";
         btnSaida.style.border = "none";
         
+        // Mantendo a estrutura de classes que você usou no HTML original para ficar bonito no CSS
         log.innerHTML += `
-            <div style="border-left: 2px solid #10b981; padding-left: 8px; line-height: 1.4;">
-                <div style="margin-bottom: 2px;">
-                    <span style="color: #64748b; font-weight: bold;">[${hora}]</span>
-                    <span style="color: #10b981; font-weight: bold;">ENTRADA CONFIRMADA</span>
+            <div class="log-item">
+                <div class="log-header-line">
+                    <span class="log-time">[${hora}]</span>
+                    <span class="log-status status-entry">ENTRADA CONFIRMADA</span>
                 </div>
-                <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    Trilha: IP 177.42.11.89 | Sessão vinculada ao CPF
-                </div>
+                <div class="log-details">Trilha: IP 177.42.11.89 | Sessão vinculada ao CPF</div>
             </div>`;
     } else {
         const btnSaida = document.getElementById('btn-saida');
@@ -106,14 +103,12 @@ function registrarPonto(tipo) {
         btnSaida.style.border = "1px solid #e2e8f0";
         
         log.innerHTML += `
-            <div style="border-left: 2px solid #f59e0b; padding-left: 8px; line-height: 1.4;">
-                <div style="margin-bottom: 2px;">
-                    <span style="color: #64748b; font-weight: bold;">[${hora}]</span>
-                    <span style="color: #f59e0b; font-weight: bold;">SAÍDA CONFIRMADA</span>
+            <div class="log-item">
+                <div class="log-header-line">
+                    <span class="log-time">[${hora}]</span>
+                    <span class="log-status status-exit">SAÍDA CONFIRMADA</span>
                 </div>
-                <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    Trilha: Log de Auditoria fechado e selado no servidor
-                </div>
+                <div class="log-details">Trilha: Log de Auditoria fechado e selado no servidor</div>
             </div>`;
     }
 };
