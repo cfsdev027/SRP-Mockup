@@ -62,6 +62,7 @@ const ServicoAutenticacao = {
 
             // Se encontrou o usuário com essas credenciais
             if (data) {
+                alert("Login efetuado com sucesso.");
                 // Guarda o username no cookie por 1 dia para manter a sessão
                 CookieHelper.set(NOME_COOKIE, data.username, 1);
                 
