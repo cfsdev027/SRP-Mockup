@@ -132,7 +132,7 @@ const ServicoAutenticacao = {
 
         } catch (err) {
             console.error("Erro na autenticação:", err.message);
-            alert("Ocorreu um erro ao tentar conectar ao servidor de autenticação.");
+            alert("Ocorreu um erro ao tentar conectar ao servidor de autenticação. \n" + err.message);
             return false;
         }
     },
