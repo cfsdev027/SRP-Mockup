@@ -92,6 +92,7 @@ const ServiceUsers = {
     },
     fetch: async function(id) {
         try {
+            alert('Consultar usuário: ' + id);
             const client = ServiceSupabase.client();
 
             const { data, error } = await client.from('users')
@@ -103,6 +104,7 @@ const ServiceUsers = {
 
             return data;
         } catch(err) {
+            alert('An exception has ben throw in ServiceUsers.fetch: ' err.message);
             console.log('An exception has ben throw in service Users.fetch: ' + err.message);
           
             return null;
