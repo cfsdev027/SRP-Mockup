@@ -464,7 +464,8 @@ const AppPages = {
 
 try {
     (async() =>{
-        const isAuthenticated = ServiceAuthentication.self_authenticate();
+        alert('Inicializando...');
+        const isAuthenticated = await ServiceAuthentication.self_authenticate();
         if(isAuthenticated){
             AppPages.activate('ponto');
         } else {
