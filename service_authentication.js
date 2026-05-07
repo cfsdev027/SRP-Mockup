@@ -1,7 +1,11 @@
-import ServiceSupabase from './service_supabase.js';
+import {ServiceSupabase} from './service_supabase.js';
+import {ServiceCookies} from './service_cookies.js';
+import {ServiceStorage} from './service_storage.js';
+
+const AUTHENTICATION_COOKIE_NAME = 'SRP-MOCKUP-AUTHENTICATION';
 
 export const ServiceAuthentication = {
-  authenticate: async function(username,password) {
+  authenticate: async function(username,password,callback) {
         try {
             const client = ServiceSupabase.client();
             
@@ -15,33 +19,53 @@ export const ServiceAuthentication = {
 
             if (error) throw error;
 
-            return data;
+            ServiceCookies.set(AUTHENTICATION_COOKIE_NAME,data.id,1);
+            ServiceStorage.set(AUTHENTICATION_COOKIE_NAME,data);
+
+            if(callback === 'function')
+                callback();
+
+            return true;
 
         } catch (err) {
             console.error("Erro na autenticação:", err.message);
             alert("Ocorreu um erro ao tentar conectar ao servidor de autenticação (authenticate).");
-            return null;
+
+            return false;
         }
     },
-    self_authenticate: async function(id){
+    self_authenticate: async function(callback){
         try {
             const client = ServiceSupabase.client();
           
             const { data, error } = await client
                 .from('users')
                 .select('*')
-                .eq('id', id)
+                .eq('id', ServiceCookies.get(AUTHENTICATION_COOKIE_NAME))
                 .eq('ativo', true)
                 .maybeSingle();
 
             if (error) throw error;
 
-            return data;
+            ServiceStorage.set(AUTHENTICATION_COOKIE_NAME,data);
+
+            if(callback === 'function')
+                callback();
+
+            return true;
 
         } catch (err) {
             console.error("Erro na recuperação:", err.message);
             alert("Ocorreu um erro ao tentar conectar ao servidor de autenticação (self-authenticate).");
-            return null;
+            
+            return false;
         }
+    },
+    logout: function(callback){
+        ServiceCookies.arase(AUTHENTICATION_COOKIE_NAME);
+        ServiceStorage.arase(AUTHENTICARION_COOKIE_NAME);
+
+        if(callback === 'function')
+          callback();
     }
 };
