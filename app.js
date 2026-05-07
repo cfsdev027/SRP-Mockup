@@ -428,6 +428,7 @@ const InterfaceLogin = {
     usernameView: document.getElementById(USERNAME_ID),
     passwordView: document.getElementById(PASSWORD_ID),
     initialize: function() {
+        alert('Inicializando SUBMIT.');
         this.formLoginView.addEventListener('submit', (e) => formLoginViewOnSubmit(e));
     },
     formLoginViewOnSubmit: async function(e) {
