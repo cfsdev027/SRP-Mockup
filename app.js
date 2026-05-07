@@ -86,22 +86,21 @@ const ServiceUsers = {
 };
 
 const ServicoAutenticacao = {
-    validarSessao: function() {
+    // 1. Transformamos o validarSessao em async
+    validarSessao: async function() {
         const cookieSessao = CookieHelper.get(NOME_COOKIE);
         
         document.getElementById('tela-login').classList.remove('ativa');
         document.getElementById('tela-ponto').classList.remove('ativa');
         
-        // Aqui você pode expandir depois para validar se o token/username guardado é válido
         if (cookieSessao) {
             document.getElementById('tela-ponto').classList.add('ativa');
 
-            (async () => {
-                const user = await ServiceUsers.get(cookieSessao);
-                if(user){
-                    ServiceUsers.dispatcher(user);
-                }
-            })
+            // 2. Agora podemos usar o await diretamente aqui de forma limpa
+            const user = await ServiceUsers.get(cookieSessao);
+            if (user) {
+                ServiceUsers.dispatcher(user);
+            }
         } else {
             document.getElementById('tela-login').classList.add('ativa');
         }
@@ -109,24 +108,22 @@ const ServicoAutenticacao = {
     
     login: async function(username, password) {
         try {
-            // Consulta o Supabase procurando pelo username, se ele está ativo e se a senha bate
-            const data = await ServiceUsers.autenticate(username,password);
+            const data = await ServiceUsers.autenticate(username, password);
 
-            // Se encontrou o usuário com essas credenciais
             if (data) {
-                // Guarda o username no cookie por 1 dia para manter a sessão
                 CookieHelper.set(NOME_COOKIE, data.id, 1);
-
                 ServiceUsers.dispatcher(data);
                 
-                // Limpa mensagens de erro e atualiza a tela
-                document.getElementById('alerta-erro').toggleAttribute('hidden');
-                this.validarSessao();
+                // Oculta o alerta de erro se ele estivesse visível
+                document.getElementById('alerta-erro').setAttribute('hidden', '');
+                
+                // 3. Adicionamos o await aqui também já que validarSessao agora é async
+                await this.validarSessao();
                 return true;
             } else {
-                // Usuário ou senha incorretos (ou usuário inativo)
                 alert('Usuário ou senha incorretos.');
-                document.getElementById('alerta-erro').toggleAttribute('hidden');
+                // Remove o hidden para mostrar o erro
+                document.getElementById('alerta-erro').removeAttribute('hidden');
                 return false;
             }
 
@@ -142,7 +139,6 @@ const ServicoAutenticacao = {
         this.validarSessao();
     }
 };
-
 
 function efetuarLogout() {     
         // 1. Apaga o cookie definindo uma data de expiração no passado e limpando o caminho (path)
