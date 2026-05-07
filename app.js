@@ -33,7 +33,6 @@ const ServiceSupabase = {
     }
 }
 
-
 const ServideCookies = {
     set: function(nome, valor, dias) {
         let expiracao = "";
@@ -241,7 +240,7 @@ export const ServiceAuthentication = {
             return false;
         }
     },
-    self_authenticate: async function(callback){
+    self_authenticate: async function(){
         try {
             const data = await ServiceUsers.fetch(ServiceCookies.get(AUTHENTICATION_COOKIE_NAME));
             if(data === null || data === undefined)
@@ -250,9 +249,6 @@ export const ServiceAuthentication = {
             if (error) throw error;
 
             ServiceStorage.set(AUTHENTICATION_COOKIE_NAME,data);
-
-            if(callback === 'function')
-                callback(data);
 
             return true;
 
@@ -467,7 +463,14 @@ const AppPages = {
 };
 
 try {
-    alert('Carregamento da pagina iniciado...');
+    (async() =>{
+        const isAuthenticated = ServiceAuthentication.self_authenticate();
+        if(isAuthenticated){
+            AppPages.activate('ponto');
+        } else {
+            AppPages.activate('login');
+        }
+    })();
 } catch(err) {
     alert(err.message);
 }
