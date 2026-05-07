@@ -218,7 +218,7 @@ const ServiceUsers = {
     },
 }
 
-export const ServiceAuthentication = {
+const ServiceAuthentication = {
   authenticate: async function(username,password,callback) {
         try {
             const data = await ServiceUsers.fetchByUsernameAndPassword(username,password);
@@ -439,7 +439,7 @@ const InterfaceLogin = {
             }
         );
     }
-}
+};
 
 const AppPages = {
     pageLogin: document.getElementById(PAGE_LOGIN_ID),
@@ -473,4 +473,4 @@ try {
     })();
 } catch(err) {
     alert(err.message);
-}
+};
