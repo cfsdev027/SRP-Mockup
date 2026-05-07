@@ -261,10 +261,10 @@ const ServiceAuthentication = {
     },
     logout: function(callback){
         try {
-            ServiceCookies.arase(AUTHENTICATION_COOKIE_NAME);
-            ServiceStorage.arase(AUTHENTICATION_COOKIE_NAME);
+            ServiceCookies.erase(AUTHENTICATION_COOKIE_NAME);
+            ServiceStorage.erase(AUTHENTICATION_COOKIE_NAME);
 
-            if(callback === 'function')
+            if(typeof callback === 'function')
                 callback();
 
             return true;
@@ -361,25 +361,25 @@ const InterfacePonto = {
         return LOG_TEMPLATE_HTML
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'ENTRADA - 1')
-          .replaceAll('{DETAIL}', 'SESSÃO DE ENTRADA VINCULADA AO CPF.'
+          .replaceAll('{DETAILS}', 'SESSÃO DE ENTRADA VINCULADA AO CPF.')
     },
     getLogSaidaIntervaloView: function(value) {
         return LOG_TEMPLATE_HTML
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'SAÍDA INTERVALO - 2')
-          .replaceAll('{DETAIL}', 'SESSÃO DE SAÍDA PARA O INTERVALO VINCULADA AO CPF.'
+          .replaceAll('{DETAILS}', 'SESSÃO DE SAÍDA PARA O INTERVALO VINCULADA AO CPF.')
     },
     getLogEntradaIntervaloView: function(value) {
         return LOG_TEMPLATE_HTML
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'ENTRADA INTERVALO - 3')
-          .replaceAll('{DETAIL}', 'SESSÃO DE ENTRADA DO INTEVALO VINCULADA AO CPF.'
+          .replaceAll('{DETAILS}', 'SESSÃO DE ENTRADA DO INTEVALO VINCULADA AO CPF.')
     },
     getLogSaidaView: function(value) {
         return LOG_TEMPLATE_HTML
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'SAÍDA - 4')
-          .replaceAll('{DETAIL}', 'SESSÃO DE ENTRADA VINCULADA AO CPF.'
+          .replaceAll('{DETAILS}', 'SESSÃO DE ENTRADA VINCULADA AO CPF.')
     },
     getLogView: function() {
         try {
@@ -426,7 +426,7 @@ const InterfaceLogin = {
     usernameView: document.getElementById(USERNAME_ID),
     passwordView: document.getElementById(PASSWORD_ID),
     initialize: function() {
-        this.formLoginView.addEventListener('submit', formLoginViewOnSubmit);
+        this.formLoginView.addEventListener('submit', (e) => formLoginViewOnSubmit(e));
     },
     formLoginViewOnSubmit: async function(e) {
         e.preventDefault();
@@ -462,20 +462,15 @@ const AppPages = {
     }
 };
 
-try {
-    alert('Inicializando...');
-    const isAuthenticated = (async() =>{
-        return await ServiceAuthentication.self_authenticate();
-    })();
-            
-    if(isAuthenticated){
-        AppPages.activate('ponto');
-    } else {
-        AppPages.activate('login');
+(async () => {
+    try {
+        const isAuthenticated = await ServiceAuthentication.self_authenticate();
+        if (isAuthenticated) {
+            AppPages.activate('ponto');
+        } else {
+            AppPages.activate('login');
+        }
+    } catch (err) {
+        console.error("Erro na inicialização:", err);
     }
-    (async() =>{
-        
-    })();
-} catch(err) {
-    alert(err.message);
-};
+})();
