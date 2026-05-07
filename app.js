@@ -246,8 +246,6 @@ const ServiceAuthentication = {
             if(data === null || data === undefined)
                 return false;
 
-            if (error) throw error;
-
             ServiceStorage.set(AUTHENTICATION_COOKIE_NAME,data);
 
             return true;
