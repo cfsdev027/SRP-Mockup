@@ -278,16 +278,16 @@ const InterfacePonto = {
     initialize: function() {
         try {
             const date = new Date().toLocaleTimeString('pt-BR');
-            this.setRelogioView(date);
+            this.setRelogioView();
             this.setDataAtualView(date);
         } catch(err) {
             console.log('An exception has ben throw in InterfacePontos.initialize: ' + err.message);
         }
     },
-    setRelogioView: function(value) {
+    setRelogioView: function() {
         try {
             setInterval(() => {
-                document.getElementById(RELOGIO_VIEW_ID).innerText = value; // new Date().toLocaleTimeString('pt-BR');
+                document.getElementById(RELOGIO_VIEW_ID).innerText = new Date().toLocaleTimeString('pt-BR');
             }, 1000);
         } catch(err) {
             console.log('An exception has ben throw in InterfacePontos.setRelogioView: ' + err.message);
@@ -314,11 +314,11 @@ const InterfacePonto = {
             console.log('An exception has ben throw in InterfacePontos.getDataAtualView: ' + err.message);
         }
     },
-    btnToggle: function(id, disable) {
+    btnToggle: function(id, disabled) {
         const btn = document.getElementById(id);
-        btn.disable = disable;
+        btn.disabled = disabled;
       
-        if (disable) {
+        if (disabled) {
             btn.classList.add('disabled');
         } else {
             btn.classList.remove('disabled');
