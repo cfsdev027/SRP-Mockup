@@ -463,14 +463,18 @@ const AppPages = {
 };
 
 try {
+    alert('Inicializando...');
+    const isAuthenticated = (async() =>{
+        return await ServiceAuthentication.self_authenticate();
+    })();
+            
+    if(isAuthenticated){
+        AppPages.activate('ponto');
+    } else {
+        AppPages.activate('login');
+    }
     (async() =>{
-        alert('Inicializando...');
-        const isAuthenticated = await ServiceAuthentication.self_authenticate();
-        if(isAuthenticated){
-            AppPages.activate('ponto');
-        } else {
-            AppPages.activate('login');
-        }
+        
     })();
 } catch(err) {
     alert(err.message);
