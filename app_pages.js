@@ -1,3 +1,6 @@
+import { InterfaceLogin } from './interface_login.js';
+import { InterfacePonto } from './interface_ponto.js';
+
 const PAGE_LOGIN_ID = 'tela-login';
 const PAGE_PONTO_ID = 'tela-ponto';
 
@@ -13,10 +16,12 @@ export const AppPages = {
           case 'login':
             pageLogin.classList.add('ativa');
             pageActive = pageLogin;
+            InterfaceLogin.initialize();
             break;
           case 'ponto':
             pagePonto.classList.add('ativa');
             pageActive = pagePonto;
+            InterfacePonto.initialize();
             break;
           default:
             throw 'Invalid page';
