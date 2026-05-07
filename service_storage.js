@@ -9,7 +9,7 @@ export const ServiceStorage = {
             return null;
         };
     },
-    arrase: function(key) {
+    arase: function(key) {
         localStorage.removeItem(key);
     }
 }
