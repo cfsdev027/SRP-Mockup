@@ -120,13 +120,13 @@ const ServicoAutenticacao = {
                 ServiceUsers.dispatcher(data);
                 
                 // Limpa mensagens de erro e atualiza a tela
-                document.getElementById('alerta-erro').classList.replace('d-flex', 'd-none');
+                document.getElementById('alerta-erro').toggleAttribute('hidden');
                 this.validarSessao();
                 return true;
             } else {
                 // Usuário ou senha incorretos (ou usuário inativo)
                 alert('Usuário ou senha incorretos.');
-                document.getElementById('alerta-erro').classList.replace('d-none', 'd-flex');
+                document.getElementById('alerta-erro').toggleAttribute('hidden');
                 return false;
             }
 
