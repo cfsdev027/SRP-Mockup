@@ -2,6 +2,7 @@ import { AppPages } from './app_pages.js';
 import { ServiceAuthentication } from './service_authentication.js';
 
 try {
+    alert('Carregamento da pagina iniciado...);
     const selfAuthenticateStatus = await ServiceAuthentication.self_authenticate((data) => {
         alert('User: ' + JSON.stringify(data));
     });
