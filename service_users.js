@@ -1,1 +1,145 @@
+import {ServiceSupabase} from './service_supabase.js';
 
+export const ServiceUsers = {
+    get: function() {
+        try {
+            const client = ServiceSupabase.client();
+
+           const { data, error } = client.from('users').select();
+
+           if (error) throw error;
+
+            return data;
+        } catch(err) {
+            console.log('An exception has ben throw in service Users.get: ' + err.message);
+          
+            return null;
+        }
+    },
+    fetch: function(id) {
+        try {
+            const client = ServiceSupabase.client();
+
+            const { data, error } = client.from('users')
+              .select()
+              .eq('id', id)
+              .maybeSingle();
+
+            if (error) throw error;
+
+            return data;
+        } catch(err) {
+            console.log('An exception has ben throw in service Users.fetch: ' + err.message);
+          
+            return null;
+        }
+    },
+    fetchByUsernameAndPassword: function(username,password) {
+        try {
+            const client = ServiceSupabase.client();
+
+            const { data, error } = client.from('users')
+              .select()
+              .eq('username', username)
+              .eq('password', password)
+              .maybeSingle();
+
+            if (error) throw error;
+
+            return data;
+        } catch(err) {
+            console.log('An exception has ben throw in service Users.fetchByUsernameAndPassword: ' + err.message);
+          
+            return null;
+        }
+    },
+    fetchByDocument: function(documentType,document) {
+        try {
+            const client = ServiceSupabase.client();
+
+            const { data, error } = client.from('users')
+              .select()
+              .eq('document_type', documentType)
+              .eq('document', document)
+              .maybeSingle();
+
+            if (error) throw error;
+
+            return data;
+        } catch(err) {
+            console.log('An exception has ben throw in service Users.fetchByDocument: ' + err.message);
+          
+            return null;
+        }
+    },
+    add: function(username,password,documentType,document,role) {
+        try {
+            const client = ServiceSupabase.client();
+
+            const { data, error } = await client
+                .from('users')
+                .insert([{
+                    username: username,
+                    password: password,
+                    document_type: documentType,
+                    document: document,
+                    role: role
+                }]).select().maybeSingle();
+
+            if (error) throw error;
+
+            return data;
+        } catch(err) {
+            console.log('An exception has ben throw in service Users.add: ' + err.message);
+          
+            return null;
+        }
+    },
+    update: function(id,username,password,documentType,document,role,ativo) {
+        try {
+            const client = ServiceSupabase.client();
+
+            const { data, error } = await client
+                .from('users')
+                .update({
+                    username: username,
+                    password: password,
+                    document_type: documentType,
+                    document: document,
+                    role: role,
+                    ativo: ativo
+                }).select()
+                .eq('id', id)
+                .maybeSingle();
+
+            if (error) throw error;
+
+            return data;
+        } catch(err) {
+            console.log('An exception has ben throw in service Users.add: ' + err.message);
+          
+            return null;
+        }
+    },
+    delete: function(id) {
+        try {
+            const client = ServiceSupabase.client();
+
+            const { data, error } = await client
+                .from('users')
+                .update({
+                  ativo: false
+                }).select()
+                .eq('id', id)
+                .maybeSingle();
+
+            if (error) throw error;
+
+            return data;
+        } catch(err) {
+            console.log('An exception has ben throw in service Users.add: ' + err.message);
+          
+            return null;
+        }
+    },
+}
