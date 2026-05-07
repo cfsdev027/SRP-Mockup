@@ -2,8 +2,8 @@ const PAGE_LOGIN_ID = 'tela-login';
 const PAGE_PONTO_ID = 'tela-ponto';
 
 const FORM_LOGIN_VIEW_ID = 'form-login';
-const USERNAME_VIEW_ID = 'usuario';
-const PASSWORD_VIEW_ID = 'senha';
+const USERNAME_ID = 'usuario';
+const PASSWORD_ID = 'senha';
 
 const AUTHENTICATION_COOKIE_NAME = 'SRP-MOCKUP-AUTHENTICATION';
 
@@ -33,7 +33,7 @@ const ServiceSupabase = {
     }
 }
 
-const ServideCookies = {
+const ServiceCookies = {
     set: function(nome, valor, dias) {
         let expiracao = "";
         if (dias) {
@@ -69,7 +69,7 @@ const ServiceStorage = {
             return null;
         };
     },
-    arase: function(key) {
+    erase: function(key) {
         localStorage.removeItem(key);
     }
 };
@@ -108,7 +108,7 @@ const ServiceUsers = {
             return null;
         }
     },
-    fetchByUsernameAndPassword: await function(username,password) {
+    fetchByUsernameAndPassword: async function(username,password) {
         try {
             const client = ServiceSupabase.client();
 
@@ -262,7 +262,7 @@ const ServiceAuthentication = {
     logout: function(callback){
         try {
             ServiceCookies.arase(AUTHENTICATION_COOKIE_NAME);
-            ServiceStorage.arase(AUTHENTICARION_COOKIE_NAME);
+            ServiceStorage.arase(AUTHENTICATION_COOKIE_NAME);
 
             if(callback === 'function')
                 callback();
@@ -274,12 +274,12 @@ const ServiceAuthentication = {
     }
 };
 
-const InterfacePontos = {
+const InterfacePonto = {
     initialize: function() {
         try {
             const date = new Date().toLocaleTimeString('pt-BR');
-            setRelogioView(date);
-            setDataAtualView(date);
+            this.setRelogioView(date);
+            this.setDataAtualView(date);
         } catch(err) {
             console.log('An exception has ben throw in InterfacePontos.initialize: ' + err.message);
         }
@@ -329,23 +329,23 @@ const InterfacePontos = {
             var logView = null;
             switch(value.type) {
               case 1: // ENTRADA
-                btnToggle('btn-entrada', true);
-                btnToggle('btn-saida', false);
+                this.btnToggle('btn-entrada', true);
+                this.btnToggle('btn-saida', false);
                 logView = getLogEntradaView(value.timestamp);
                 break;
               case 2: // SAÍDA INTERVALO
-                btnToggle('btn-entrada', false);
-                btnToggle('btn-saida', true);
+                this.btnToggle('btn-entrada', false);
+                this.btnToggle('btn-saida', true);
                 logView = getLogSaidaIntervaloView(value.timestamp);
                 break;
               case 3: // ENTRADA INTERVALO
-                btnToggle('btn-entrada', true);
-                btnToggle('btn-saida', false);
+                this.btnToggle('btn-entrada', true);
+                this.btnToggle('btn-saida', false);
                 logView = getLogEntradaIntervaloView(value.timestamp);
                 break;
               case 4: // SAÍDA
-                btnToggle('btn-entrada', true);
-                btnToggle('btn-saida', true);
+                this.btnToggle('btn-entrada', true);
+                this.btnToggle('btn-saida', true);
                 logView = getLogSaidaView(value.timestamp);
                 break;
               default:
@@ -415,25 +415,25 @@ const InterfacePontos = {
             return;
         }
 
-        setUsernameView(user.username);
-        setDocumentView(user.document);
-        setDocumentTypeView(user.document_type);
+        this.setUsernameView(user.username);
+        this.setDocumentView(user.document);
+        this.setDocumentTypeView(user.document_type);
     }
 };
 
 const InterfaceLogin = {
     formLoginView: document.getElementById(FORM_LOGIN_VIEW_ID),
-    usernameView: document.getElementById(USERNAME_VIEW_ID),
-    passwordView: document.getElementById(PASSWORD_VIEW_ID),
+    usernameView: document.getElementById(USERNAME_ID),
+    passwordView: document.getElementById(PASSWORD_ID),
     initialize: function() {
-        formLoginView.addEventListener('submit', formLoginViewOnSubmit);
+        this.formLoginView.addEventListener('submit', formLoginViewOnSubmit);
     },
     formLoginViewOnSubmit: async function(e) {
         e.preventDefault();
 
         const authenticateState = ServiceAuthentication.authenticate(
-            usernameView.value,
-            passwordView.value,
+            this.usernameView.value,
+            this.passwordView.value,
             (data) => {
                 window.location.reload();
             }
