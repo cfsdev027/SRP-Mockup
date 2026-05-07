@@ -1,11 +1,10 @@
 // Configurações do Supabase (Pode deixar exposto no GitHub Pages sem problemas se o RLS estiver ativo)
 const SUPABASE_URL = "https://sdakvoeythnbfqfgupzf.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNkYWt2b2V5dGhuYmZxZmd1cHpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMDA1MjksImV4cCI6MjA5MzY3NjUyOX0.U13KCcwWUTStp1-k8at9CudflI66uJ8YhMzSErQAlrM";
+const NOME_COOKIE = "SRP-Mockup-Autentication";
 
 // Inicializa o cliente global do Supabase
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-const NOME_COOKIE = "SRP-Mockup-Autentication";
 
 const CookieHelper = {
     set: function(nome, valor, dias) {
@@ -32,6 +31,60 @@ const CookieHelper = {
     }
 };
 
+const ServicoUsers = {
+    autenticate: async function(username,password) {
+        try {
+            // Consulta o Supabase procurando pelo username, se ele está ativo e se a senha bate
+            const { data, error } = await supabaseClient
+                .from('users')
+                .select('*')
+                .eq('username', username)
+                .eq('password', password) // Verificação simples de texto puro para o mockup
+                .eq('ativo', true)
+                .maybeSingle(); // Retorna um objeto único ou null (evita erro se não achar nada)
+
+            if (error) throw error;
+
+            return data;
+
+        } catch (err) {
+            console.error("Erro na autenticação:", err.message);
+            alert("Ocorreu um erro ao tentar conectar ao servidor de autenticação.");
+            return null;
+        }
+    },
+    get: async function(id){
+        try {
+            // Consulta o Supabase procurando pelo username, se ele está ativo e se a senha bate
+            const { data, error } = await supabaseClient
+                .from('users')
+                .select('*')
+                .eq('id', id)
+                .eq('ativo', true)
+                .maybeSingle(); // Retorna um objeto único ou null (evita erro se não achar nada)
+
+            if (error) throw error;
+
+            return data;
+
+        } catch (err) {
+            console.error("Erro na recuperação:", err.message);
+            alert("Ocorreu um erro ao tentar conectar ao servidor.");
+            return null;
+        }
+    },
+    dispatcher: function(user){
+        const usernameView = document.getElementById('username-view');
+        usernameView.textContent = user.username;
+
+        const documentTypeView = document.getElementById('document-type-view');
+        documentTypeView.textContent = user.document_type;
+
+        const documentView = document.getElementById('document-view');
+        documentView.textContent = user.document;
+    }
+};
+
 const ServicoAutenticacao = {
     validarSessao: function() {
         const cookieSessao = CookieHelper.get(NOME_COOKIE);
@@ -42,37 +95,29 @@ const ServicoAutenticacao = {
         // Aqui você pode expandir depois para validar se o token/username guardado é válido
         if (cookieSessao) {
             document.getElementById('tela-ponto').classList.add('ativa');
+
+            (async () => {
+                const user = await ServiceUser.get(cookieSessao);
+                if(user){
+                    ServiceUser.dispatcher(user);
+                }
+            })
         } else {
             document.getElementById('tela-login').classList.add('ativa');
         }
     },
     
-    login: async function(usuario, senha) {
+    login: async function(username, password) {
         try {
             // Consulta o Supabase procurando pelo username, se ele está ativo e se a senha bate
-            const { data, error } = await supabaseClient
-                .from('users')
-                .select('*')
-                .eq('username', usuario)
-                .eq('password', senha) // Verificação simples de texto puro para o mockup
-                .eq('ativo', true)
-                .maybeSingle(); // Retorna um objeto único ou null (evita erro se não achar nada)
-
-            if (error) throw error;
+            const data = await ServiceUser.autenticate(username,password);
 
             // Se encontrou o usuário com essas credenciais
             if (data) {
                 // Guarda o username no cookie por 1 dia para manter a sessão
-                CookieHelper.set(NOME_COOKIE, data.username, 1);
+                CookieHelper.set(NOME_COOKIE, data.id, 1);
 
-                const usernameView = document.getElementById('username-view');
-                usernameView.textContent = data.username;
-
-                const documentTypeView = document.getElementById('document-type-view');
-                documentTypeView.textContent = data.document_type;
-
-                const documentView = document.getElementById('document-view');
-                documentView.textContent = data.document;
+                ServiceUser.dispatcher(data); o 
                 
                 // Limpa mensagens de erro e atualiza a tela
                 document.getElementById('alerta-erro').classList.replace('d-flex', 'd-none');
