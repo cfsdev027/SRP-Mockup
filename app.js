@@ -467,13 +467,17 @@ const AppPages = {
 
 (async () => {
     try {
+        alert('Inicializando APP.');
         const isAuthenticated = await ServiceAuthentication.self_authenticate();
         if (isAuthenticated) {
+            alert('Inicializando PONTO.');
             AppPages.activate('ponto');
         } else {
+            alert('Inicializando LOGIN.');
             AppPages.activate('login');
         }
     } catch (err) {
-        console.error("Erro na inicialização:", err);
+        alert('Erro no fluxo principal: ' + err.message);
+        console.error('Erro na inicialização: ', err.message);
     }
 })();
