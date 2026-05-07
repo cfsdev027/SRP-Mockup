@@ -68,6 +68,9 @@ const ServicoAutenticacao = {
                 const usernameView = document.getElementById('username-view');
                 usernameView.textContent = data.username;
 
+                const documentTypeView = document.getElementById('document-type-view');
+                documentTypeView.textContent = data.document_type;
+
                 const documentView = document.getElementById('document-view');
                 documentView.textContent = data.document;
                 
