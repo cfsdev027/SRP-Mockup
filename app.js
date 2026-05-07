@@ -242,10 +242,14 @@ const ServiceAuthentication = {
     },
     self_authenticate: async function(){
         try {
+            alert('Inicializando AUTENTICAÇÃO.');
             const data = await ServiceUsers.fetch(ServiceCookies.get(AUTHENTICATION_COOKIE_NAME));
-            if(data === null || data === undefined)
+            if(data === null) {
+                alert('Falha na AUTENTICAÇÃO.')
                 return false;
-
+            }
+                    
+            alert('Sucesso na AUTENTICAÇÃO.');       
             ServiceStorage.set(AUTHENTICATION_COOKIE_NAME,data);
 
             return true;
