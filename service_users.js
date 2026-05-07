@@ -1,11 +1,11 @@
 import {ServiceSupabase} from './service_supabase.js';
 
 export const ServiceUsers = {
-    get: function() {
+    get: async function() {
         try {
             const client = ServiceSupabase.client();
 
-           const { data, error } = client.from('users').select();
+           const { data, error } = await client.from('users').select();
 
            if (error) throw error;
 
@@ -16,11 +16,11 @@ export const ServiceUsers = {
             return null;
         }
     },
-    fetch: function(id) {
+    fetch: async function(id) {
         try {
             const client = ServiceSupabase.client();
 
-            const { data, error } = client.from('users')
+            const { data, error } = await client.from('users')
               .select()
               .eq('id', id)
               .maybeSingle();
@@ -34,11 +34,11 @@ export const ServiceUsers = {
             return null;
         }
     },
-    fetchByUsernameAndPassword: function(username,password) {
+    fetchByUsernameAndPassword: await function(username,password) {
         try {
             const client = ServiceSupabase.client();
 
-            const { data, error } = client.from('users')
+            const { data, error } = await client.from('users')
               .select()
               .eq('username', username)
               .eq('password', password)
@@ -53,11 +53,11 @@ export const ServiceUsers = {
             return null;
         }
     },
-    fetchByDocument: function(documentType,document) {
+    fetchByDocument: async function(documentType,document) {
         try {
             const client = ServiceSupabase.client();
 
-            const { data, error } = client.from('users')
+            const { data, error } = await client.from('users')
               .select()
               .eq('document_type', documentType)
               .eq('document', document)
@@ -72,7 +72,7 @@ export const ServiceUsers = {
             return null;
         }
     },
-    add: function(username,password,documentType,document,role) {
+    add: async function(username,password,documentType,document,role) {
         try {
             const client = ServiceSupabase.client();
 
@@ -95,7 +95,7 @@ export const ServiceUsers = {
             return null;
         }
     },
-    update: function(id,username,password,documentType,document,role,ativo) {
+    update: async function(id,username,password,documentType,document,role,ativo) {
         try {
             const client = ServiceSupabase.client();
 
@@ -121,7 +121,7 @@ export const ServiceUsers = {
             return null;
         }
     },
-    delete: function(id) {
+    delete: async function(id) {
         try {
             const client = ServiceSupabase.client();
 
