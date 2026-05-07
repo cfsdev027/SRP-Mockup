@@ -228,7 +228,7 @@ const ServiceAuthentication = {
             ServiceCookies.set(AUTHENTICATION_COOKIE_NAME,data.id,1);
             ServiceStorage.set(AUTHENTICATION_COOKIE_NAME,data);
 
-            if(callback === 'function')
+            if(typeof callback === 'function')
                 callback(data);
 
             return true;
