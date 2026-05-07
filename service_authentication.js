@@ -23,7 +23,7 @@ export const ServiceAuthentication = {
             ServiceStorage.set(AUTHENTICATION_COOKIE_NAME,data);
 
             if(callback === 'function')
-                callback();
+                callback(data);
 
             return true;
 
@@ -50,7 +50,7 @@ export const ServiceAuthentication = {
             ServiceStorage.set(AUTHENTICATION_COOKIE_NAME,data);
 
             if(callback === 'function')
-                callback();
+                callback(data);
 
             return true;
 
@@ -62,10 +62,16 @@ export const ServiceAuthentication = {
         }
     },
     logout: function(callback){
-        ServiceCookies.arase(AUTHENTICATION_COOKIE_NAME);
-        ServiceStorage.arase(AUTHENTICARION_COOKIE_NAME);
+        try {
+            ServiceCookies.arase(AUTHENTICATION_COOKIE_NAME);
+            ServiceStorage.arase(AUTHENTICARION_COOKIE_NAME);
 
-        if(callback === 'function')
-          callback();
+            if(callback === 'function')
+                callback();
+
+            return true;
+        } catch(e) {
+            return false;
+        }
     }
 };
