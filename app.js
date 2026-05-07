@@ -31,7 +31,7 @@ const CookieHelper = {
     }
 };
 
-const ServicoUsers = {
+const ServiceUsers = {
     autenticate: async function(username,password) {
         try {
             // Consulta o Supabase procurando pelo username, se ele está ativo e se a senha bate
@@ -97,9 +97,9 @@ const ServicoAutenticacao = {
             document.getElementById('tela-ponto').classList.add('ativa');
 
             (async () => {
-                const user = await ServiceUser.get(cookieSessao);
+                const user = await ServiceUsers.get(cookieSessao);
                 if(user){
-                    ServiceUser.dispatcher(user);
+                    ServiceUsers.dispatcher(user);
                 }
             })
         } else {
@@ -110,14 +110,14 @@ const ServicoAutenticacao = {
     login: async function(username, password) {
         try {
             // Consulta o Supabase procurando pelo username, se ele está ativo e se a senha bate
-            const data = await ServiceUser.autenticate(username,password);
+            const data = await ServiceUsers.autenticate(username,password);
 
             // Se encontrou o usuário com essas credenciais
             if (data) {
                 // Guarda o username no cookie por 1 dia para manter a sessão
                 CookieHelper.set(NOME_COOKIE, data.id, 1);
 
-                ServiceUser.dispatcher(data);
+                ServiceUsers.dispatcher(data);
                 
                 // Limpa mensagens de erro e atualiza a tela
                 document.getElementById('alerta-erro').classList.replace('d-flex', 'd-none');
