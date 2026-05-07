@@ -49,7 +49,7 @@ const ServicoUsers = {
 
         } catch (err) {
             console.error("Erro na autenticação:", err.message);
-            alert("Ocorreu um erro ao tentar conectar ao servidor de autenticação.");
+            alert("Ocorreu um erro ao tentar conectar ao servidor de autenticação. \n" + err.message);
             return null;
         }
     },
@@ -117,7 +117,7 @@ const ServicoAutenticacao = {
                 // Guarda o username no cookie por 1 dia para manter a sessão
                 CookieHelper.set(NOME_COOKIE, data.id, 1);
 
-                ServiceUser.dispatcher(data); o 
+                ServiceUser.dispatcher(data);
                 
                 // Limpa mensagens de erro e atualiza a tela
                 document.getElementById('alerta-erro').classList.replace('d-flex', 'd-none');
