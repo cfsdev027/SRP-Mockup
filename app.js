@@ -64,6 +64,12 @@ const ServicoAutenticacao = {
             if (data) {
                 // Guarda o username no cookie por 1 dia para manter a sessão
                 CookieHelper.set(NOME_COOKIE, data.username, 1);
+
+                const usernameView = document.getElementById('username-view');
+                usernameView.textContent = data.username;
+
+                const documentView = document.getElementById('document-view');
+                documentView.textContent = data.document;
                 
                 // Limpa mensagens de erro e atualiza a tela
                 document.getElementById('alerta-erro').classList.replace('d-flex', 'd-none');
