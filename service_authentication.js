@@ -1,4 +1,4 @@
-import {ServiceSupabase} from './service_supabase.js';
+import {ServiceUsers} from './service_users.js';
 import {ServiceCookies} from './service_cookies.js';
 import {ServiceStorage} from './service_storage.js';
 
@@ -7,17 +7,9 @@ const AUTHENTICATION_COOKIE_NAME = 'SRP-MOCKUP-AUTHENTICATION';
 export const ServiceAuthentication = {
   authenticate: async function(username,password,callback) {
         try {
-            const client = ServiceSupabase.client();
-            
-            const { data, error } = await client
-                .from('users')
-                .select('*')
-                .eq('username', username)
-                .eq('password', password)
-                .eq('ativo', true)
-                .maybeSingle();
-
-            if (error) throw error;
+            const data = await ServiceUsers.fetchByUsernameAndPassword(username,password);
+            if(data === null || data === undefined)
+                return false;
 
             ServiceCookies.set(AUTHENTICATION_COOKIE_NAME,data.id,1);
             ServiceStorage.set(AUTHENTICATION_COOKIE_NAME,data);
@@ -36,14 +28,9 @@ export const ServiceAuthentication = {
     },
     self_authenticate: async function(callback){
         try {
-            const client = ServiceSupabase.client();
-          
-            const { data, error } = await client
-                .from('users')
-                .select('*')
-                .eq('id', ServiceCookies.get(AUTHENTICATION_COOKIE_NAME))
-                .eq('ativo', true)
-                .maybeSingle();
+            const data = await ServiceUsers.fetch(ServiceCookies.get(AUTHENTICATION_COOKIE_NAME));
+            if(data === null || data === undefined)
+                return false;
 
             if (error) throw error;
 
