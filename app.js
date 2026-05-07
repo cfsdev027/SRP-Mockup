@@ -435,7 +435,12 @@ const InterfaceLogin = {
             this.usernameView.value,
             this.passwordView.value,
             (data) => {
-                window.location.reload();
+                if(data === null) {
+                    alert('Usuário ou senha incorretos.');
+                    return;
+                }
+            
+                AppPages.activate('ponto');
             }
         );
     }
