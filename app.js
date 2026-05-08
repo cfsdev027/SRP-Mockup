@@ -298,11 +298,9 @@ const InterfacePonto = {
         }
     },
     btnLogoutOnClick: function() {
-        alert('LOGOUT');
         ServiceAuthentication.logout(() => window.location.reload());
     },
     btnEntradaOnClick: function() {
-        alert('ADD ENTRADA');
         let logPlaceHolder = document.getElementById(LOG_PLACEHOLDER_ID);
         if(logPlaceHolder !== null && logPlaceHolder !== undefined) 
             logPlaceHolder.remove();
@@ -315,7 +313,6 @@ const InterfacePonto = {
         }
     },
     btnSaidaOnClick: function() {
-        alert('ADD SAÍDA');
         let logSaidaIntervalo = document.getElementById(LOG_SAIDA_INTERVALO_ID);
         if(logSaidaIntervalo === null || logSaidaIntervalo === undefined) {
             this.setLogView({ type: 2, timestamp: new Date().toLocaleTimeString('pt-BR')});
@@ -341,14 +338,14 @@ const InterfacePonto = {
     },
     setDataAtualView: function(value) {
         try {
-            document.getElementById(DATA_ATUAL_VIEW_ID).innerText = new Date(value).toLocaleDateString('pt-BR', TO_LOCALE_DATA_STRING_OPTIONS);
+            document.getElementById(DATA_ATUAL_VIEW_ID).innerText = new Date(value).toLocaleDateString('pt-BR');
         } catch(err) {
             console.log('An exception has ben throw in InterfacePontos.setDataAtualView: ' + err.message);
         }
     },
     getDataAtualView: function() {
         try {
-            return new Date(document.getElementById(DATA_ATUAL_VIEW_ID).innerText).toLocaleDataString('pt-BR', TO_LOCALE_DATA_STRING_OPTIONS);
+            return new Date(document.getElementById(DATA_ATUAL_VIEW_ID).innerText).toLocaleDataString('pt-BR');
         } catch(err){
             console.log('An exception has ben throw in InterfacePontos.getDataAtualView: ' + err.message);
         }
