@@ -353,12 +353,21 @@ const InterfacePonto = {
     },
     btnToggle: function(id, disabled) {
         const btn = document.getElementById(id);
+        if (!btn) return;
+
+        // Define o atributo real de desabilitado
         btn.disabled = disabled;
-      
+
+        // Opcional: Adiciona uma classe para garantir o estilo visual 
+        // se o seu CSS 'ponto.css' não estiver herdando do Bootstrap corretamente
         if (disabled) {
-            btn.classList.add('disabled');
+            btn.style.opacity = "0.5";
+            btn.style.cursor = "not-allowed";
+            btn.style.pointerEvents = "none"; // Garante que não haja cliques
         } else {
-            btn.classList.remove('disabled');
+            btn.style.opacity = "1";
+            btn.style.cursor = "pointer";
+            btn.style.pointerEvents = "auto";
         }
     },
     setLogView: function(value) {
@@ -366,23 +375,23 @@ const InterfacePonto = {
             var logView = null;
             switch(value.type) {
               case 1: // ENTRADA
-                this.btnToggle('btn-entrada', true);
-                this.btnToggle('btn-saida', false);
+                this.btnToggle(BTN_ENTRADA_ID, true);
+                this.btnToggle(BTN_SAIDA_ID, false);
                 logView = this.getLogEntradaView(value.timestamp);
                 break;
               case 2: // SAÍDA INTERVALO
-                this.btnToggle('btn-entrada', false);
-                this.btnToggle('btn-saida', true);
+                this.btnToggle(BTN_ENTRADA_ID, false);
+                this.btnToggle(BTN_SAIDA_ID, true);
                 logView = this.getLogSaidaIntervaloView(value.timestamp);
                 break;
               case 3: // ENTRADA INTERVALO
-                this.btnToggle('btn-entrada', true);
-                this.btnToggle('btn-saida', false);
+                this.btnToggle(BTN_ENTRADA_ID, true);
+                this.btnToggle(BTN_SAIDA_ID, false);
                 logView = this.getLogEntradaIntervaloView(value.timestamp);
                 break;
               case 4: // SAÍDA
-                this.btnToggle('btn-entrada', true);
-                this.btnToggle('btn-saida', true);
+                this.btnToggle(BTN_ENTRADA_ID, true);
+                this.btnToggle(BTN_SAIDA_ID, true);
                 logView = this.getLogSaidaView(value.timestamp);
                 break;
               default:
