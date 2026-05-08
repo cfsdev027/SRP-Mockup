@@ -104,7 +104,7 @@ const ServiceUsers = {
 
             return data;
         } catch(err) {
-            alert('An exception has ben throw in ServiceUsers.fetch: ' err.message);
+            alert('An exception has ben throw in ServiceUsers.fetch: ' + err.message);
             console.log('An exception has ben throw in service Users.fetch: ' + err.message);
           
             return null;
@@ -431,12 +431,12 @@ const InterfaceLogin = {
     passwordView: document.getElementById(PASSWORD_ID),
     initialize: function() {
         alert('Inicializando SUBMIT.');
-        this.formLoginView.addEventListener('submit', (e) => formLoginViewOnSubmit(e));
+        this.formLoginView.addEventListener('submit', (e) => this.formLoginViewOnSubmit(e));
     },
     formLoginViewOnSubmit: async function(e) {
         e.preventDefault();
 
-        const authenticateState = ServiceAuthentication.authenticate(
+        const authenticateState = await ServiceAuthentication.authenticate(
             this.usernameView.value,
             this.passwordView.value,
             (data) => {
