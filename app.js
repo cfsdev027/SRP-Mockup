@@ -250,14 +250,11 @@ const ServiceAuthentication = {
     },
     self_authenticate: async function(){
         try {
-            alert('Inicializando AUTENTICAÇÃO.');
             const data = await ServiceUsers.fetch(ServiceCookies.get(AUTHENTICATION_COOKIE_NAME));
             if(data === null) {
-                alert('Falha na AUTENTICAÇÃO.')
                 return false;
             }
-                    
-            alert('Sucesso na AUTENTICAÇÃO.');       
+                         
             ServiceStorage.set(AUTHENTICATION_COOKIE_NAME,data);
 
             return true;
@@ -293,18 +290,21 @@ const InterfacePonto = {
             const date = new Date().toLocaleTimeString('pt-BR');
             this.setRelogioView();
             this.setDataAtualView(date);
+            this.userStateHasChange();
 
-            this.btnLogout.addEventListener('click', (e) => this.btnLogoutOnClick(e));
-            this.btnEntrada.addEventListener('click', (e) => this.btnEntradaOnClick(e));
-            this.btnSaida.addEventListener('click', (e) => this.btnSaidaOnClick(e));
+            this.btnLogout.addEventListener('click', this.btnLogoutOnClick);
+            this.btnEntrada.addEventListener('click', this.btnEntradaOnClick);
+            this.btnSaida.addEventListener('click', this.btnSaidaOnClick);
         } catch(err) {
             console.log('An exception has ben throw in InterfacePontos.initialize: ' + err.message);
         }
     },
-    btnLogoutOnClick: function(e) {
+    btnLogoutOnClick: function() {
+        alert('LOGOUT');
         ServiceAuthentication.logout(() => window.location.reload());
     },
-    btnEntradaOnClick: function(e) {
+    btnEntradaOnClick: function() {
+        alert('ADD ENTRADA');
         let logEntrada = document.getElementById(LOG_ENTRADA_ID);
         if(logEntrada === null || logEntrada === undefined) {
             this.setLogView({ type: 1, timestamp: new Date().toLocaleTimeString('pt-BR')});            
@@ -312,7 +312,8 @@ const InterfacePonto = {
             this.setLogView({ type: 3, timestamp: new Date().toLocaleTimeString('pt-BR')}); 
         }
     },
-    btnSaidaOnClick: function(e) {
+    btnSaidaOnClick: function() {
+        alert('ADD SAÍDA');
         let logSaidaIntervalo = document.getElementById(LOG_SAIDA_INTERVALO_ID);
         if(logSaidaIntervalo === null || logSaidaIntervalo === undefined) {
             this.setLogView({ type: 2, timestamp: new Date().toLocaleTimeString('pt-BR')});
