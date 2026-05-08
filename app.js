@@ -25,10 +25,10 @@ const DOCUMENT_VIEW_ID = 'document-view';
 const DOCUMENT_TYPE_VIEW_ID = 'document-type-view';
 const TO_LOCALE_DATA_STRING_OPTIONS = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const LOG_TEMPLATE_HTML = `
-            <div id="{ID}"class="log-item" style="color: {COLOR} !important;">
+            <div id="{ID}"class="log-item">
                 <div class="log-header-line">
                     <span class="log-time">[{HOUR}]</span>
-                    <span class="log-status status-entry">{TYPE}</span>
+                    <span class="log-status status-entry" style="color: {COLOR} !important;">{TYPE}</span>
                 </div>
                 <div class="log-details">{DETAILS}</div>
             </div>`;
