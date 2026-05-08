@@ -291,10 +291,6 @@ const InterfacePonto = {
             this.setRelogioView();
             this.setDataAtualView(date);
             this.userStateHasChange();
-
-            this.btnLogout.addEventListener('click', this.btnLogoutOnClick);
-            this.btnEntrada.addEventListener('click', this.btnEntradaOnClick);
-            this.btnSaida.addEventListener('click', this.btnSaidaOnClick);
         } catch(err) {
             console.log('An exception has ben throw in InterfacePontos.initialize: ' + err.message);
         }
@@ -305,6 +301,10 @@ const InterfacePonto = {
     },
     btnEntradaOnClick: function() {
         alert('ADD ENTRADA');
+        let logPlaceHolder = document.getElementById(LOG_PLACEHOLDER_ID);
+        if(logPlaceHolder !== null && logPlaceHolder !== undefined) 
+            logPlaceHolder.remove();
+                
         let logEntrada = document.getElementById(LOG_ENTRADA_ID);
         if(logEntrada === null || logEntrada === undefined) {
             this.setLogView({ type: 1, timestamp: new Date().toLocaleTimeString('pt-BR')});            
