@@ -290,9 +290,8 @@ const InterfacePonto = {
     btnSaida: document.getElementById(BTN_SAIDA_ID),
     initialize: function() {
         try {
-            const date = new Date().toLocaleTimeString('pt-BR');
             this.setRelogioView();
-            this.setDataAtualView(date);
+            this.setDataAtualView(new Date());
             this.userStateHasChange();
 
             // CARREGAR LOGS DO STORAGE
@@ -308,7 +307,7 @@ const InterfacePonto = {
             });
         }
         } catch(err) {
-        console.log('Erro em InterfacePonto.initialize: ' + err.message);
+            console.log('Erro em InterfacePonto.initialize: ' + err.message);
         }
     },
     btnLogoutOnClick: function() {
@@ -358,9 +357,13 @@ const InterfacePonto = {
     },
     setDataAtualView: function(value) {
         try {
-            document.getElementById(DATA_ATUAL_VIEW_ID).innerText = new Date(value).toLocaleDateString('pt-BR');
+            // Garante que trabalhamos com um objeto Date válido
+            const dataParaExibir = (value instanceof Date) ? value : new Date();
+        
+            document.getElementById(DATA_ATUAL_VIEW_ID).innerText = 
+            dataParaExibir.toLocaleDateString('pt-BR', TO_LOCALE_DATA_STRING_OPTIONS);
         } catch(err) {
-            console.log('An exception has ben throw in InterfacePontos.setDataAtualView: ' + err.message);
+            console.log('Erro em InterfacePonto.setDataAtualView: ' + err.message);
         }
     },
     getDataAtualView: function() {
