@@ -469,7 +469,7 @@ const InterfacePonto = {
           .replaceAll('{COLOR}', LOG_SAIDA_COLOR)
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'SAÍDA - 4')
-          .replaceAll('{DETAILS}', 'SESSÃO DE ENTRADA VINCULADA AO CPF.')
+          .replaceAll('{DETAILS}', 'SESSÃO DE SAÍDA VINCULADA AO CPF.')
     },
     getLogView: function() {
         try {
