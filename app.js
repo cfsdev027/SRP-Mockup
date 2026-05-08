@@ -99,7 +99,6 @@ const ServiceUsers = {
     },
     fetch: async function(id) {
         try {
-            alert('Consultar usuário: ' + id);
             const client = ServiceSupabase.client();
 
             const { data, error } = await client.from('users')
@@ -308,17 +307,17 @@ const InterfacePonto = {
     btnEntradaOnClick: function(e) {
         let logEntrada = document.getElementById(LOG_ENTRADA_ID);
         if(logEntrada === null || logEntrada === undefined) {
-            this.setLogView(this.getLogEntradaView(new Date().toLocaleTimeString('pt-BR')));            
+            this.setLogView({ type: 1, timestamp: new Date().toLocaleTimeString('pt-BR')});            
         } else {
-            this.setLogView(this.getLogEntradaIntervaloView(new Date().toLocaleTimeString('pt-BR'))); 
+            this.setLogView({ type: 3, timestamp: new Date().toLocaleTimeString('pt-BR')}); 
         }
     },
     btnSaidaOnClick: function(e) {
         let logSaidaIntervalo = document.getElementById(LOG_SAIDA_INTERVALO_ID);
         if(logSaidaIntervalo === null || logSaidaIntervalo === undefined) {
-            this.setLogView(this.getLogSaidaIntervaloView(new Date().toLocaleTimeString('pt-BR')));            
+            this.setLogView({ type: 2, timestamp: new Date().toLocaleTimeString('pt-BR')});
         } else {
-            this.setLogView(this.getLogSaidaView(new Date().toLocaleTimeString('pt-BR'))); 
+            this.setLogView({ type: 4, timestamp: new Date().toLocaleTimeString('pt-BR')});
         }
     },
     setRelogioView: function() {
@@ -368,22 +367,22 @@ const InterfacePonto = {
               case 1: // ENTRADA
                 this.btnToggle('btn-entrada', true);
                 this.btnToggle('btn-saida', false);
-                logView = getLogEntradaView(value.timestamp);
+                logView = this.getLogEntradaView(value.timestamp);
                 break;
               case 2: // SAÍDA INTERVALO
                 this.btnToggle('btn-entrada', false);
                 this.btnToggle('btn-saida', true);
-                logView = getLogSaidaIntervaloView(value.timestamp);
+                logView = this.getLogSaidaIntervaloView(value.timestamp);
                 break;
               case 3: // ENTRADA INTERVALO
                 this.btnToggle('btn-entrada', true);
                 this.btnToggle('btn-saida', false);
-                logView = getLogEntradaIntervaloView(value.timestamp);
+                logView = this.getLogEntradaIntervaloView(value.timestamp);
                 break;
               case 4: // SAÍDA
                 this.btnToggle('btn-entrada', true);
                 this.btnToggle('btn-saida', true);
-                logView = getLogSaidaView(value.timestamp);
+                logView = this.getLogSaidaView(value.timestamp);
                 break;
               default:
                 throw 'Invalid log.type';
@@ -391,6 +390,7 @@ const InterfacePonto = {
 
             document.getElementById(LOG_VIEW_ID).innerHTML += logView;
         } catch(err) {
+            alert('An exception has ben throw in InterfacePontos.setLogView: ' + err.message);
             console.log('An exception has ben throw in InterfacePontos.setLogView: ' + err.message);
         }
     },
@@ -467,7 +467,6 @@ const InterfaceLogin = {
     usernameView: document.getElementById(USERNAME_ID),
     passwordView: document.getElementById(PASSWORD_ID),
     initialize: function() {
-        alert('Inicializando SUBMIT.');
         this.formLoginView.addEventListener('submit', (e) => this.formLoginViewOnSubmit(e));
     },
     formLoginViewOnSubmit: async function(e) {
@@ -511,13 +510,10 @@ const AppPages = {
 
 (async () => {
     try {
-        alert('Inicializando APP.');
         const isAuthenticated = await ServiceAuthentication.self_authenticate();
         if (isAuthenticated) {
-            alert('Inicializando PONTO.');
             AppPages.activate('ponto');
         } else {
-            alert('Inicializando LOGIN.');
             AppPages.activate('login');
         }
     } catch (err) {
