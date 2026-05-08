@@ -6,6 +6,7 @@ const USERNAME_ID = 'usuario';
 const PASSWORD_ID = 'senha';
 
 const AUTHENTICATION_COOKIE_NAME = 'SRP-MOCKUP-AUTHENTICATION';
+const PONTO_LOGS_STORAGE_KEY = 'SRP-MOCKUP-LOGS';
 
 const BTN_LOGOUT_ID = 'btn-logout';
 const BTN_ENTRADA_ID = 'btn-entrada';
@@ -293,12 +294,31 @@ const InterfacePonto = {
             this.setRelogioView();
             this.setDataAtualView(date);
             this.userStateHasChange();
+
+            // CARREGAR LOGS DO STORAGE
+            const logsSalvos = ServiceStorage.get(PONTO_LOGS_STORAGE_KEY);
+            if (logsSalvos && logsSalvos.length > 0) {
+                // Remove o placeholder se houver logs
+                const placeholder = document.getElementById(LOG_PLACEHOLDER_ID);
+                if (placeholder) placeholder.remove();
+
+                // Renderiza cada log salvo
+                logsSalvos.forEach(log => {
+                this.setLogView(log, true); // true indica que é carregamento
+            });
+        }
         } catch(err) {
-            console.log('An exception has ben throw in InterfacePontos.initialize: ' + err.message);
+        console.log('Erro em InterfacePonto.initialize: ' + err.message);
         }
     },
     btnLogoutOnClick: function() {
-        ServiceAuthentication.logout(() => window.location.reload());
+        if(confirm('Deseja realmente sair?')) {
+            ServiceAuthentication.logout(() => {
+                // Limpa os logs do ponto antes de deslogar
+                ServiceStorage.erase(PONTO_LOGS_STORAGE_KEY);
+                window.location.reload();
+            });
+        }
     },
     btnEntradaOnClick: function() {
         let logPlaceHolder = document.getElementById(LOG_PLACEHOLDER_ID);
@@ -369,7 +389,7 @@ const InterfacePonto = {
             btn.style.pointerEvents = "auto";
         }
     },
-    setLogView: function(value) {
+    setLogView: function(value, isLoading = false) {
         try {
             var logView = null;
             switch(value.type) {
@@ -398,6 +418,13 @@ const InterfacePonto = {
             };
 
             document.getElementById(LOG_VIEW_ID).innerHTML += logView;
+
+            // PERSISTÊNCIA: Só salva se não estivermos apenas carregando dados antigos
+            if (!isLoading) {
+                let logsAtuais = ServiceStorage.get(PONTO_LOGS_STORAGE_KEY) || [];
+                logsAtuais.push(value);
+                ServiceStorage.set(PONTO_LOGS_STORAGE_KEY, logsAtuais);
+            }
         } catch(err) {
             alert('An exception has ben throw in InterfacePontos.setLogView: ' + err.message);
             console.log('An exception has ben throw in InterfacePontos.setLogView: ' + err.message);
