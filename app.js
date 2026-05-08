@@ -102,6 +102,8 @@ const ServiceUsers = {
     },
     fetch: async function(id) {
         try {
+            if (!id) return null;
+                    
             const client = ServiceSupabase.client();
 
             const { data, error } = await client.from('users')
@@ -251,21 +253,26 @@ const ServiceAuthentication = {
             return false;
         }
     },
-    self_authenticate: async function(){
+    self_authenticate: async function() {
         try {
-            const data = await ServiceUsers.fetch(ServiceCookies.get(AUTHENTICATION_COOKIE_NAME));
-            if(data === null) {
+            const userId = ServiceCookies.get(AUTHENTICATION_COOKIE_NAME);
+        
+            // CORREÇÃO: Se não houver ID no cookie, retorne false imediatamente
+            if (!userId || userId === 'null') {
                 return false;
             }
-                         
-            ServiceStorage.set(AUTHENTICATION_COOKIE_NAME,data);
 
+            const data = await ServiceUsers.fetch(userId);
+            if (data === null) {
+                return false;
+            }
+                     
+            ServiceStorage.set(AUTHENTICATION_COOKIE_NAME, data);
             return true;
 
         } catch (err) {
             console.error("Erro na recuperação:", err.message);
-            alert("Ocorreu um erro ao tentar conectar ao servidor de autenticação (self-authenticate).");
-            
+            // Remova o alert daqui se quiser evitar popups em erros de sessão expirada
             return false;
         }
     },
