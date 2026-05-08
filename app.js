@@ -10,6 +10,8 @@ const AUTHENTICATION_COOKIE_NAME = 'SRP-MOCKUP-AUTHENTICATION';
 const BTN_LOGOUT_ID = 'btn-logout';
 const BTN_ENTRADA_ID = 'btn-entrada';
 const BTN_SAIDA_ID = 'btn-saida';
+const LOG_ENTRADA_COLOR = '#10b981';
+const LOG_SAIDA_COLOR = '#f59e0b';
 const LOG_ENTRADA_ID = 'log-entrada';
 const LOG_SAIDA_INTERVALO_ID = 'log-saida-intervalo';
 const LOG_ENTRADA_INTERVALO_ID = 'log-entrada-intervalo';
@@ -23,7 +25,7 @@ const DOCUMENT_VIEW_ID = 'document-view';
 const DOCUMENT_TYPE_VIEW_ID = 'document-type-view';
 const TO_LOCALE_DATA_STRING_OPTIONS = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const LOG_TEMPLATE_HTML = `
-            <div id="{ID}"class="log-item">
+            <div id="{ID}"class="log-item" style="color: {COLOR} !important;">
                 <div class="log-header-line">
                     <span class="log-time">[{HOUR}]</span>
                     <span class="log-status status-entry">{TYPE}</span>
@@ -407,6 +409,7 @@ const InterfacePonto = {
     getLogEntradaView: function(value) {
         return LOG_TEMPLATE_HTML
           .replaceAll('{ID}', LOG_ENTRADA_ID)
+          .replaceAll('{COLOR}', LOG_ENTRADA_COLOR)
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'ENTRADA - 1')
           .replaceAll('{DETAILS}', 'SESSÃO DE ENTRADA VINCULADA AO CPF.')
@@ -414,6 +417,7 @@ const InterfacePonto = {
     getLogSaidaIntervaloView: function(value) {
         return LOG_TEMPLATE_HTML
           .replaceAll('{ID}', LOG_SAIDA_INTERVALO_ID)
+          .replaceAll('{COLOR}', LOG_SAIDA_COLOR)
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'SAÍDA INTERVALO - 2')
           .replaceAll('{DETAILS}', 'SESSÃO DE SAÍDA PARA O INTERVALO VINCULADA AO CPF.')
@@ -421,6 +425,7 @@ const InterfacePonto = {
     getLogEntradaIntervaloView: function(value) {
         return LOG_TEMPLATE_HTML
           .replaceAll('{ID}', LOG_ENTRADA_INTERVALO_ID)
+          .replaceAll('{COLOR}', LOG_ENTRADA_COLOR)
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'ENTRADA INTERVALO - 3')
           .replaceAll('{DETAILS}', 'SESSÃO DE ENTRADA DO INTEVALO VINCULADA AO CPF.')
@@ -428,6 +433,7 @@ const InterfacePonto = {
     getLogSaidaView: function(value) {
         return LOG_TEMPLATE_HTML
           .replaceAll('{ID}', LOG_SAIDA_ID)
+          .replaceAll('{COLOR}', LOG_SAIDA_COLOR)
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'SAÍDA - 4')
           .replaceAll('{DETAILS}', 'SESSÃO DE ENTRADA VINCULADA AO CPF.')
