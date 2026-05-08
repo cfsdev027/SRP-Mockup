@@ -7,6 +7,13 @@ const PASSWORD_ID = 'senha';
 
 const AUTHENTICATION_COOKIE_NAME = 'SRP-MOCKUP-AUTHENTICATION';
 
+const BTN_LOGOUT_ID = 'btn-logout';
+const BTN_ENTRADA_ID = 'btn-entrada';
+const BTN_SAIDA_ID = 'btn-saida';
+const LOG_ENTRADA_ID = 'log-entrada';
+const LOG_SAIDA_INTERVALO_ID = 'log-saida-intervalo';
+const LOG_ENTRADA_INTERVALO_ID = 'log-entrada-intervalo';
+const LOG_SAIDA_ID = 'log-saida';
 const RELOGIO_VIEW_ID = 'relogio';
 const DATA_ATUAL_VIEW_ID = 'data-atual';
 const LOG_VIEW_ID = 'console-ponto';
@@ -16,7 +23,7 @@ const DOCUMENT_VIEW_ID = 'document-view';
 const DOCUMENT_TYPE_VIEW_ID = 'document-type-view';
 const TO_LOCALE_DATA_STRING_OPTIONS = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const LOG_TEMPLATE_HTML = `
-            <div class="log-item">
+            <div id="{ID}"class="log-item">
                 <div class="log-header-line">
                     <span class="log-time">[{HOUR}]</span>
                     <span class="log-status status-entry">{TYPE}</span>
@@ -279,13 +286,39 @@ const ServiceAuthentication = {
 };
 
 const InterfacePonto = {
+    btnLogout: document.getElementById(BTN_LOGOUT_ID),
+    btnEntrada: document.getElementById(BTN_ENTRADA_ID),
+    btnSaida: document.getElementById(BTN_SAIDA_ID),
     initialize: function() {
         try {
             const date = new Date().toLocaleTimeString('pt-BR');
             this.setRelogioView();
             this.setDataAtualView(date);
+
+            this.btnLogout.addEventListener('click', (e) => this.btnLogoutOnClick(e));
+            this.btnEntrada.addEventListener('click', (e) => this.btnEntradaOnClick(e));
+            this.btnSaida.addEventListener('click', (e) => this.btnSaidaOnClick(e));
         } catch(err) {
             console.log('An exception has ben throw in InterfacePontos.initialize: ' + err.message);
+        }
+    },
+    btnLogoutOnClick: function(e) {
+        ServiceAuthentication.logout(() => window.location.reload());
+    },
+    btnEntradaOnClick: function(e) {
+        let logEntrada = document.getElementById(LOG_ENTRADA_ID);
+        if(logEntrada === null || logEntrada === undefined) {
+            this.setLogView(this.getLogEntradaView(new Date().toLocaleTimeString('pt-BR')));            
+        } else {
+            this.setLogView(this.getLogEntradaIntervaloView(new Date().toLocaleTimeString('pt-BR'))); 
+        }
+    },
+    btnSaidaOnClick: function(e) {
+        let logSaidaIntervalo = document.getElementById(LOG_SAIDA_INTERVALO_ID);
+        if(logSaidaIntervalo === null || logSaidaIntervalo === undefined) {
+            this.setLogView(this.getLogSaidaIntervaloView(new Date().toLocaleTimeString('pt-BR')));            
+        } else {
+            this.setLogView(this.getLogSaidaView(new Date().toLocaleTimeString('pt-BR'))); 
         }
     },
     setRelogioView: function() {
@@ -363,24 +396,28 @@ const InterfacePonto = {
     },
     getLogEntradaView: function(value) {
         return LOG_TEMPLATE_HTML
+          .replaceAll('{ID}', LOG_ENTRADA_ID)
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'ENTRADA - 1')
           .replaceAll('{DETAILS}', 'SESSÃO DE ENTRADA VINCULADA AO CPF.')
     },
     getLogSaidaIntervaloView: function(value) {
         return LOG_TEMPLATE_HTML
+          .replaceAll('{ID}', LOG_SAIDA_INTERVALO_ID)
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'SAÍDA INTERVALO - 2')
           .replaceAll('{DETAILS}', 'SESSÃO DE SAÍDA PARA O INTERVALO VINCULADA AO CPF.')
     },
     getLogEntradaIntervaloView: function(value) {
         return LOG_TEMPLATE_HTML
+          .replaceAll('{ID}', LOG_ENTRADA_INTERVALO_ID)
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'ENTRADA INTERVALO - 3')
           .replaceAll('{DETAILS}', 'SESSÃO DE ENTRADA DO INTEVALO VINCULADA AO CPF.')
     },
     getLogSaidaView: function(value) {
         return LOG_TEMPLATE_HTML
+          .replaceAll('{ID}', LOG_SAIDA_ID)
           .replaceAll('{HOUR}', value)
           .replaceAll('{TYPE}', 'SAÍDA - 4')
           .replaceAll('{DETAILS}', 'SESSÃO DE ENTRADA VINCULADA AO CPF.')
