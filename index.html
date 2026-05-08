@@ -48,7 +48,7 @@
                                     <div id="username-view" class="user-name"></div>
                                     <div class="user-doc"><span id='document-type-view'></span>:&nbsp<span id="document-view"></span></div>
                                 </div>
-                                <button class="btn-logout" onclick="">
+                                <button class="btn-logout" onclick="InterfacePonto.btnLogoutOnClick()">
                                 <i class="bi bi-box-arrow-right"></i> Sair
                                 </button>
                             </div>
@@ -58,10 +58,10 @@
                                 <div id="data-atual" class="server-time-date">...</div>
                             </div>
                             <div class="punch-actions">
-                                <button id="btn-entrada" class="btn-punch btn-entry" onclick="">
+                                <button id="btn-entrada" class="btn-punch btn-entry" onclick="InterfacePonto.btnEntradaOnClick()">
                                 <i class="bi bi-play-fill"></i> Entrada
                                 </button>
-                                <button id="btn-saida" class="btn-punch btn-exit" onclick="" disabled>
+                                <button id="btn-saida" class="btn-punch btn-exit" onclick="InterfacePonto.btnSaidaOnClick()" disabled>
                                 <i class="bi bi-stop-fill"></i> Saída
                                 </button>
                             </div>
