@@ -116,6 +116,12 @@
     transition: all 0.2s ease;
 }
 
+.btn-punch:disabled {
+    filter: grayscale(100%);
+    opacity: 0.6;
+    cursor: not-allowed !important;
+}
+
 .btn-entry {
     background: var(--primary);
     color: white;
